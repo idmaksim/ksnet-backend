@@ -33,7 +33,7 @@ export class UsersRepository {
         },
         role: {
           connect: {
-            name: BaseRoleEnum.User,
+            name: BaseRoleEnum.Guest,
           },
         },
       },
