@@ -1,0 +1,29 @@
+FROM node:20
+
+ARG DATABASE_URL
+ARG ACCESS_SECRET
+ARG REFRESH_SECRET
+
+ENV DATABASE_URL=$DATABASE_URL ACCESS_SECRET=$ACCESS_SECRET REFRESH_SECRET=$REFRESH_SECRET 
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+COPY pnpm-lock.yaml ./
+
+RUN npm install -g pnpm
+
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+
+RUN pnpm prisma generate
+RUN pnpm build
+
+EXPOSE ${PORT}
+EXPOSE ${PORT_ADMIN}
+
+CMD ["pnpm", "start:prod:admin"]
+
+
+

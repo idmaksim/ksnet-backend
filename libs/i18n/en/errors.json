@@ -1,0 +1,21 @@
+{
+    "badRequest": "Bad request",
+    "internalServerError": "Internal server error",
+    "accessDenied": "You do not have enough rights to perform this operation",
+    "user": {
+        "alreadyExists": "A user with this email already exists",
+        "notFound": "User not found",
+        "deactivated": "User is inactive",
+        "forbidden": "User is blocked",
+        "notFoundMany": "Users not found"
+    },
+    "permission": {
+        "notFound": "Permission not found",
+        "notFoundMany": "Permissions not found"
+    },
+    "role": {
+        "notFound": "Role not found",
+        "notFoundMany": "Roles not found",
+        "alreadyExists": "A role with this name already exists"
+    }
+}
