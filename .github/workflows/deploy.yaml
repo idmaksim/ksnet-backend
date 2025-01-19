@@ -1,12 +1,9 @@
-name: Deploy Main
+name: Deploy
 
 on: 
   push:
     branches:
       - master
-    paths-ignore:
-      - 'apps/admin/**'
-      - '.github/workflows/deploy_admin.yaml'
 
 jobs:
   test:
@@ -20,9 +17,31 @@ jobs:
 
       - name: Run test
         run: pnpm test
+
+  migrate:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Env
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "ACCESS_SECRET=${{ secrets.ACCESS_SECRET }}" >> .env
+          echo "REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}" >> .env
+
+      - name: Install deps
+        run: npm i -g pnpm && pnpm install
+
+      - name: Migrate
+        run: pnpm prisma migrate deploy
+
+      # - name: Run seeds
+      #   run: pnpm seed
   
   deploy:
-    needs: [test]
+    needs: [migrate]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -41,6 +60,15 @@ jobs:
             rm -rf ksnet-backend
             git clone https://github.com/idmaksim/ksnet-backend.git
             cd ksnet-backend
+
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+            echo "ACCESS_SECRET=${{ secrets.ACCESS_SECRET }}" >> .env
+            echo "REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}" >> .env
+
+            cat .env
+
+            docker-compose down -v
+
             docker-compose up --build -d
   
 
@@ -78,27 +106,6 @@ jobs:
   #         cache-from: type=gha
   #         cache-to: type=gha,mode=max
 
-  # migrate:
-  #   needs: [build]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-
-  #     - name: Set up Env
-  #       run: |
-  #         echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
-  #         echo "ACCESS_SECRET=${{ secrets.ACCESS_SECRET }}" >> .env
-  #         echo "REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}" >> .env
-
-  #     - name: Install deps
-  #       run: npm i -g pnpm && pnpm install
-
-  #     - name: Migrate
-  #       run: pnpm prisma migrate deploy
-
-  #     # - name: Run seeds
-  #     #   run: pnpm seed
 
   # deploy:
   #   needs: [migrate]

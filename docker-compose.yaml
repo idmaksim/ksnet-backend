@@ -1,35 +1,18 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - '5432:5432'
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ['CMD', 'pg_isready', '-U', 'postgres']
-      interval: 3s
-      timeout: 2s
-      retries: 5
-
   main:
     build:
       context: .
       dockerfile: Dockerfile.main
     command: >
-      sh -c "pnpm prisma migrate deploy && pnpm build:main && pnpm start:prod:main"
+      sh -c "pnpm start:prod:main"
     ports:
       - 3000:3000
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
-      - ACCESS_SECRET=access_secret
-      - REFRESH_SECRET=refresh_secret
+      - DATABASE_URL=${DATABASE_URL}
+      - ACCESS_SECRET=${ACCESS_SECRET}
+      - REFRESH_SECRET=${REFRESH_SECRET}
       - PORT=3000
     depends_on:
       db:
@@ -40,13 +23,13 @@ services:
       context: .
       dockerfile: Dockerfile.admin
     command: >
-      sh -c "pnpm prisma migrate deploy && pnpm build:admin && pnpm start:prod:admin"
+      sh -c "pnpm start:prod:admin"
     ports:
       - 3001:3001
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
-      - ACCESS_SECRET=access_secret
-      - REFRESH_SECRET=refresh_secret
+      - DATABASE_URL=${DATABASE_URL}
+      - ACCESS_SECRET=${ACCESS_SECRET}
+      - REFRESH_SECRET=${REFRESH_SECRET}
       - PORT=3001
     depends_on:
       db:
