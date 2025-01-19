@@ -10,6 +10,8 @@
   },
   "scripts": {
     "build": "prisma generate && nest build main && nest build admin",
+    "build:main": "nest build main",
+    "build:admin": "nest build admin",
     "seed": "prisma db seed",
     "reset": "prisma migrate reset --force",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
