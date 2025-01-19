@@ -10,6 +10,8 @@ import { ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { GroupModule } from '../group/group.module';
+import { TagModule } from '../tag/tag.module';
+import { PostModule } from '../post/post.module';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { GroupModule } from '../group/group.module';
     TokenModule,
     UsersModule,
     GroupModule,
+    TagModule,
+    PostModule,
   ],
 })
 export class AppModule implements NestModule {

@@ -56,9 +56,22 @@ type GroupSearchResponse {
   data: [GroupModel!]!
 }
 
+type TagModel {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  id: String!
+  name: String!
+}
+
+type TagSearchResponse {
+  data: [TagModel!]!
+  count: Float!
+}
+
 type Query {
   me: UserModel!
   groups(search: GroupSearchDto!): GroupSearchResponse!
+  tags(search: TagSearchDto!): TagSearchResponse!
 }
 
 input GroupSearchDto {
@@ -83,4 +96,18 @@ input GroupSortDto {
 enum SortTypes {
   ASC
   DESC
+}
+
+input TagSearchDto {
+  pagination: PaginationDto
+  filters: TagFiltersDto
+  sort: TagSortDto
+}
+
+input TagFiltersDto {
+  name: String
+}
+
+input TagSortDto {
+  name: SortTypes
 }

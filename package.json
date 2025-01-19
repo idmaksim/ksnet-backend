@@ -108,7 +108,9 @@
       "^@app/password(|/.*)$": "<rootDir>/libs/password/src/$1",
       "^@app/token(|/.*)$": "<rootDir>/libs/token/src/$1",
       "^@app/prisma(|/.*)$": "<rootDir>/libs/prisma/src/$1",
-      "^@app/group(|/.*)$": "<rootDir>/libs/group/src/$1"
+      "^@app/group(|/.*)$": "<rootDir>/libs/group/src/$1",
+      "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1",
+      "^@app/tag(|/.*)$": "<rootDir>/libs/tag/src/$1"
     }
   }
 }

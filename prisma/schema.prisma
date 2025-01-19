@@ -55,6 +55,7 @@ model Post {
   id          String      @id @default(uuid())
   title       String
   ownerId     String
+  isVerified  Boolean     @default(false)
   owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   description String?     @db.Text
   content     String      @db.Text

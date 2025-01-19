@@ -65,6 +65,18 @@
       ],
       "@app/group/*": [
         "libs/group/src/*"
+      ],
+      "@app/post": [
+        "libs/post/src"
+      ],
+      "@app/post/*": [
+        "libs/post/src/*"
+      ],
+      "@app/tag": [
+        "libs/tag/src"
+      ],
+      "@app/tag/*": [
+        "libs/tag/src/*"
       ]
     }
   }

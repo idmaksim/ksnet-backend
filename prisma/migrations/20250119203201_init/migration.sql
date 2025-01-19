@@ -50,6 +50,7 @@ CREATE TABLE "Post" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "ownerId" TEXT NOT NULL,
+    "isVerified" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT,
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
