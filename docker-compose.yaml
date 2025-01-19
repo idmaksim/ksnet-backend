@@ -18,19 +18,36 @@ services:
       timeout: 2s
       retries: 5
 
-  app:
+  main:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.main
     command: >
-      sh -c "pnpm prisma migrate reset --force && pnpm concurrently \"nest start main\" \"nest start admin\""
+      sh -c "pnpm prisma migrate deploy && pnpm build:main && pnpm start:prod:main"
     ports:
-      - '${PORT}:${PORT}'
-      - '${PORT_ADMIN}:${PORT_ADMIN}'
+      - 3000:3000
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
       - ACCESS_SECRET=access_secret
       - REFRESH_SECRET=refresh_secret
+      - PORT=3000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  admin:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    command: >
+      sh -c "pnpm prisma migrate deploy && pnpm build:admin && pnpm start:prod:admin"
+    ports:
+      - 3001:3001
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+      - ACCESS_SECRET=access_secret
+      - REFRESH_SECRET=refresh_secret
+      - PORT=3001
     depends_on:
       db:
         condition: service_healthy
