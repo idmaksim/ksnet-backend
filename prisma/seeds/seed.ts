@@ -3,6 +3,7 @@ import { seedPermission } from './permission.seed';
 import { seedRole } from './role.seed';
 import { seedUser } from './user.seed';
 import { groupSeed } from './group.seed';
+import { seedTag } from './tag.seed';
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,9 @@ async function main() {
 
   await seedUser(prisma);
   console.log('[+] User created');
+
+  await seedTag(prisma);
+  console.log('[+] Tag created');
 
   console.log('[+] All set');
 }
