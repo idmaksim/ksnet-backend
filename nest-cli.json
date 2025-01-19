@@ -108,6 +108,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/post/tsconfig.lib.json"
       }
+    },
+    "tag": {
+      "type": "library",
+      "root": "libs/tag",
+      "entryFile": "index",
+      "sourceRoot": "libs/tag/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/tag/tsconfig.lib.json"
+      }
     }
   }
 }
