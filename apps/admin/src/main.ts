@@ -5,9 +5,15 @@ import helmet from 'helmet';
 import { ValidationPipe } from '@nestjs/common';
 import { LoggerInterceptor } from '@app/common';
 import { DocumentBuilder } from '@nestjs/swagger';
+import * as fs from 'fs';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const httpsOptions = {
+    key: fs.readFileSync('private.key'),
+    cert: fs.readFileSync('certificate.crt'),
+  };
+
+  const app = await NestFactory.create(AppModule, { httpsOptions });
 
   app.setGlobalPrefix('api');
   app.use(
@@ -39,7 +45,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const port = process.env.PORT || 3001;
+  const port = process.env.PORT_ADMIN || 3001;
 
   const config = new DocumentBuilder()
     .setTitle('Admin KSNet Backend')

@@ -14,7 +14,6 @@ services:
       - ACCESS_SECRET=${ACCESS_SECRET}
       - REFRESH_SECRET=${REFRESH_SECRET}
       - PORT=3000
-
   admin:
     build:
       context: .
@@ -27,4 +26,4 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - ACCESS_SECRET=${ACCESS_SECRET}
       - REFRESH_SECRET=${REFRESH_SECRET}
-      - PORT=3001
+      - PORT_ADMIN=3001
