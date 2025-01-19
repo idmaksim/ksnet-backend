@@ -62,11 +62,11 @@ jobs:
             git clone https://github.com/idmaksim/ksnet-backend.git
             cd ksnet-backend
 
-             openssl req -nodes -new -x509 -keyout private.key -out certificate.crt -days 365 
+            openssl req -nodes -new -x509 -keyout private.key -out certificate.crt -days 365 -subj "/CN=ubase-cloud.ru"
 
             echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
             echo "ACCESS_SECRET=${{ secrets.ACCESS_SECRET }}" >> .env
-            echo "REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}" >> .env
+            echo "REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}" >> .env 
 
             cat .env
 
