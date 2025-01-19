@@ -20,7 +20,7 @@ jobs:
         run: pnpm test
 
   migrate:
-    needs: [build]
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
