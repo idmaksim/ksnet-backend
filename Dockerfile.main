@@ -11,6 +11,9 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
 
+COPY private.key ./
+COPY certificate.crt ./
+
 RUN npm install -g pnpm
 
 RUN pnpm install --frozen-lockfile
@@ -18,9 +21,9 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 RUN pnpm prisma generate
-RUN pnpm build
+RUN pnpm build:main
 
-EXPOSE 3000
+EXPOSE ${PORT}
 
 CMD ["pnpm", "start:prod:main"]
 
