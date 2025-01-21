@@ -64,9 +64,9 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y docker-compose
 
-            rm -rf main
+            rm -rf ksnet-backend
             git clone https://github.com/idmaksim/ksnet-backend.git
-            cd main
+            cd ksnet-backend
 
             openssl req -nodes -new -x509 -keyout private.key -out certificate.crt -days 365 -subj "/CN=domain.ru"
 
