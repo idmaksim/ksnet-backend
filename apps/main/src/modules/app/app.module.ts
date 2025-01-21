@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import config from '../../config/config';
 import { AuthModule } from '../auth/auth.module';
@@ -12,6 +12,7 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { GroupModule } from '../group/group.module';
 import { TagModule } from '../tag/tag.module';
 import { PostModule } from '../post/post.module';
+import { S3Module } from 'nestjs-s3';
 
 @Module({
   imports: [
@@ -37,6 +38,18 @@ import { PostModule } from '../post/post.module';
         path: `./libs/i18n/`,
       },
       resolvers: [AcceptLanguageResolver],
+    }),
+    S3Module.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        config: {
+          accessKeyId: configService.get('S3_ACCESS_KEY_ID'),
+          secretAccessKey: configService.get('S3_SECRET_ACCESS_KEY'),
+          endpoint: configService.get('S3_ENDPOINT'),
+          region: configService.get('S3_REGION'),
+        },
+      }),
     }),
     AuthModule,
     TokenModule,
