@@ -61,6 +61,7 @@ model Like {
 model Post {
   id          String      @id @default(uuid())
   title       String
+  url         String
   ownerId     String      @map("owner_id")
   isVerified  Boolean     @default(false) @map("is_verified")
   owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
@@ -73,6 +74,7 @@ model Post {
   comments    Comment[]
   postTags    PostTag[]
 
+  @@index([title, description])
   @@map("posts")
 }
 
