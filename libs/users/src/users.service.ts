@@ -25,7 +25,6 @@ export class UsersService {
 
   async create(dto: UserCreateDto) {
     await this.ensureExistsByEmail(dto.email);
-    console.log(dto);
     await this.groupService.ensureExistsById(dto.groupId);
     const hashedPassword = await this.passwordService.hashPassword(
       dto.password,
@@ -34,7 +33,7 @@ export class UsersService {
       ...dto,
       password: hashedPassword,
     });
-    return user;
+    return this.deletePassword(user);
   }
 
   async findOneByEmail(options: FindOneByEmailOptions) {
@@ -42,7 +41,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(this.i18n.t('errors.user.notFound'));
     }
-    return user;
+    return options.withPassword ? user : this.deletePassword(user);
   }
 
   async findOneById(options: FindOneByIdOptions) {
@@ -50,7 +49,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(this.i18n.t('errors.user.notFound'));
     }
-    return user;
+    return options.withPassword ? user : this.deletePassword(user);
   }
 
   async ensureExistsById(id: string) {
@@ -67,5 +66,10 @@ export class UsersService {
         this.i18n.translate('errors.user.alreadyExists'),
       );
     }
+  }
+
+  private async deletePassword(user: User): Promise<UserWithoutPassword> {
+    delete user.password;
+    return user;
   }
 }

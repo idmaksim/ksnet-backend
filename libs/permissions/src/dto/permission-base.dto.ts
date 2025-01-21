@@ -1,15 +1,12 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
-@InputType()
 export class PermissionBaseDto {
-  @Field(() => String)
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty()
   name: string;
 
-  @Field(() => String)
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty()
   title: string;
 }

@@ -1,26 +1,20 @@
-import { Field, InputType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString } from 'class-validator';
 
-@InputType()
 export class UserBaseDto {
-  @ApiProperty({ example: 'string@gmail.com' })
-  @Field(() => String)
+  @ApiProperty({ default: 'string@gmail.com' })
   @IsEmail()
   email: string;
 
-  @ApiProperty({ example: 'John' })
-  @Field(() => String)
+  @ApiProperty({ type: String })
   @IsString()
   firstName: string;
 
-  @ApiProperty({ example: 'Doe' })
-  @Field(() => String)
+  @ApiProperty({ type: String })
   @IsString()
   lastName: string;
 
-  @ApiProperty()
-  @Field(() => String)
+  @ApiProperty({ type: String })
   @IsString()
   password: string;
 }

@@ -28,7 +28,7 @@ export class PermissionService {
   async findOneById(id: string) {
     const permission = await this.permissionRepository.findOneById(id);
     if (!permission) {
-      this.logger.warn(`Право ${id} не найдено`);
+      this.logger.error(`Право ${id} не найдено`);
       throw new NotFoundException(this.i18n.t('errors.permission.not_found'));
     }
     this.logger.log(`Право ${permission.name} найдено`);
@@ -47,7 +47,7 @@ export class PermissionService {
   async ensureExistsById(id: string) {
     const exists = await this.permissionRepository.existsById(id);
     if (!exists) {
-      this.logger.warn(`Право ${id} не найдено`);
+      this.logger.error(`Право ${id} не найдено`);
       throw new NotFoundException(this.i18n.t('errors.permission.notFound'));
     }
   }

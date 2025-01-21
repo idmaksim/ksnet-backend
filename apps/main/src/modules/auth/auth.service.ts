@@ -50,10 +50,10 @@ export class AuthService {
   }
 
   async signIn(dto: SignInDto) {
-    const user = await this.usersService.findOneByEmail({
+    const user = (await this.usersService.findOneByEmail({
       email: dto.email,
       withPassword: true,
-    });
+    })) as User;
     if (
       !(await this.passwordService.comparePassword({
         password: dto.password,
@@ -91,7 +91,7 @@ export class AuthService {
     res.cookie(data.name, data.token, {
       httpOnly: true,
       secure: false,
-      sameSite: 'strict',
+      sameSite: 'none',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
   }

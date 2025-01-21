@@ -57,7 +57,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
 
   const config = new DocumentBuilder()
-    .setTitle('KSNet Backend')
+    .setTitle('Nest Template')
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
@@ -78,7 +78,7 @@ async function bootstrap() {
       tryItOutEnabled: true,
       syntaxHighlight: true,
     },
-    customSiteTitle: 'KSNet Backend',
+    customSiteTitle: 'Nest Template',
   });
   await app.listen(port);
 }

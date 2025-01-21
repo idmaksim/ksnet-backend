@@ -15,7 +15,6 @@
     },
     "role": {
         "notFound": "Role not found",
-        "notFoundMany": "Roles not found",
-        "alreadyExists": "A role with this name already exists"
+        "notFoundMany": "Roles not found"
     }
 }

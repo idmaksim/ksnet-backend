@@ -35,7 +35,7 @@ export class TokenService {
         secret: this.configService.get('REFRESH_SECRET'),
       });
     } catch (error) {
-      this.logger.warn(`Ошибка проверки токена обновления: ${error.message}`);
+      this.logger.error(`Ошибка проверки токена обновления: ${error.message}`);
       throw new UnauthorizedException();
     }
   }

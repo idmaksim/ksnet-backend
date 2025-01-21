@@ -1,14 +1,13 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, Min } from 'class-validator';
-import { InputType, Field, Int } from '@nestjs/graphql';
 
-@InputType()
 export class PaginationDto {
-  @Field(() => Int)
+  @ApiProperty({ default: 10 })
   @Min(0)
   @IsNumber()
   count: number;
 
-  @Field(() => Int)
+  @ApiProperty({ default: 1 })
   @Min(1)
   @IsNumber()
   page: number;

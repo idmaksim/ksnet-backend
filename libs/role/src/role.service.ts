@@ -8,6 +8,7 @@ import { I18nService } from 'nestjs-i18n';
 import { PermissionService } from '@app/permissions';
 import { RoleRepository } from './role.repository';
 import { RoleCreateDto } from './dto/role-create.dto';
+import { RoleUpdateDto } from './dto/role-update.dto';
 import { PERMISSION_SERVICE } from '@app/common/constants/providers.const';
 import { RoleUpdateOptions } from './interfaces/service.interfaces';
 import { RoleSearchDto } from './dto/role-search.dto';

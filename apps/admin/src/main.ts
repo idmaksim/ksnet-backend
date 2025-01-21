@@ -5,39 +5,12 @@ import helmet from 'helmet';
 import { ValidationPipe } from '@nestjs/common';
 import { LoggerInterceptor } from '@app/common';
 import { DocumentBuilder } from '@nestjs/swagger';
-import * as fs from 'fs';
 
 async function bootstrap() {
-  const httpsOptions = {
-    key: fs.readFileSync('private.key'),
-    cert: fs.readFileSync('certificate.crt'),
-  };
-
-  const app = await NestFactory.create(AppModule, { httpsOptions });
+  const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
-  app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          'default-src': ["'self'"],
-          'script-src': [
-            "'self'",
-            "'unsafe-inline'",
-            "'unsafe-eval'",
-            'https://cdn.jsdelivr.net',
-          ],
-          'style-src': [
-            "'self'",
-            "'unsafe-inline'",
-            'https://cdn.jsdelivr.net',
-          ],
-          'img-src': ["'self'", 'data:', 'https://cdn.jsdelivr.net'],
-          'font-src': ["'self'", 'https://cdn.jsdelivr.net'],
-        },
-      },
-    }),
-  );
+  app.use(helmet()); // https://docs.nestjs.com/security/helmet
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.enableCors({
@@ -45,10 +18,10 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const port = process.env.PORT_ADMIN || 3001;
+  const port = process.env.PORT || 3001;
 
   const config = new DocumentBuilder()
-    .setTitle('Admin KSNet Backend')
+    .setTitle('Admin Nest Template')
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
@@ -69,7 +42,7 @@ async function bootstrap() {
       tryItOutEnabled: true,
       syntaxHighlight: true,
     },
-    customSiteTitle: 'Admin KSNet Backend',
+    customSiteTitle: 'Admin Nest Template',
   });
   await app.listen(port);
 }

@@ -31,15 +31,21 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           echo "ACCESS_SECRET=${{ secrets.ACCESS_SECRET }}" >> .env
           echo "REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}" >> .env
+          echo "S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}" >> .env
+          echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
+          echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env
+          echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
+          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+
 
       - name: Install deps
         run: npm i -g pnpm && pnpm install
 
-      # - name: Migrate
-      #   run: pnpm prisma migrate deploy
+      - name: Migrate
+        run: pnpm prisma migrate deploy
 
       - name: Run seeds
-        run: pnpm reset
+        run: pnpm seed
   
   deploy:
     needs: [migrate]
@@ -58,15 +64,20 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y docker-compose
 
-            rm -rf ksnet-backend
+            rm -rf main
             git clone https://github.com/idmaksim/ksnet-backend.git
-            cd ksnet-backend
+            cd main
 
-            openssl req -nodes -new -x509 -keyout private.key -out certificate.crt -days 365 -subj "/CN=ubase-cloud.ru"
+            openssl req -nodes -new -x509 -keyout private.key -out certificate.crt -days 365 -subj "/CN=domain.ru"
 
             echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
             echo "ACCESS_SECRET=${{ secrets.ACCESS_SECRET }}" >> .env
             echo "REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}" >> .env 
+            echo "S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}" >> .env
+            echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
+            echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env
+            echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
+            echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
 
             cat .env
 

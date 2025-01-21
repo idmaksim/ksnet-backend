@@ -11,148 +11,170 @@ datasource db {
 model Tag {
   id        String    @id @default(uuid())
   name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
   postTags  PostTag[]
+
+  @@map("tags")
 }
 
 model PostTag {
-  postId    String
+  postId    String   @map("post_id")
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  tagId     String
+  tagId     String   @map("tag_id")
   tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@id([postId, tagId])
+  @@map("post_tags")
 }
 
 model Comment {
   id        String    @id @default(uuid())
-  postId    String
+  postId    String    @map("post_id")
   post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String    @map("user_id")
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   content   String    @db.Text
-  replyOnId String?
+  replyOnId String?   @map("reply_on_id")
   replyOn   Comment?  @relation("CommentReply", fields: [replyOnId], references: [id], onDelete: SetNull)
   replies   Comment[] @relation("CommentReply")
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@map("comments")
 }
 
 model Like {
   id        String   @id @default(uuid())
-  postId    String
+  postId    String   @map("post_id")
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String   @map("user_id")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("likes")
 }
 
 model Post {
   id          String      @id @default(uuid())
   title       String
-  ownerId     String
-  isVerified  Boolean     @default(false)
+  ownerId     String      @map("owner_id")
+  isVerified  Boolean     @default(false) @map("is_verified")
   owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   description String?     @db.Text
   content     String      @db.Text
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @default(now()) @updatedAt
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @default(now()) @updatedAt @map("updated_at")
   postMedias  PostMedia[]
   likes       Like[]
   comments    Comment[]
   postTags    PostTag[]
+
+  @@map("posts")
 }
 
 model PostMedia {
-  postId    String
-  mediaId   String
+  postId    String   @map("post_id")
+  mediaId   String   @map("media_id")
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   media     Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@id([postId, mediaId])
+  @@map("post_medias")
 }
 
 model Media {
   id         String      @id @default(uuid())
   url        String      @unique
   type       MediaType
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @default(now()) @updatedAt
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @default(now()) @updatedAt @map("updated_at")
   postMedias PostMedia[]
   userMedias UserMedia[]
+
+  @@map("medias")
 }
 
 model Group {
   id        String   @id @default(uuid())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   users     User[]
+
+  @@map("groups")
 }
 
 model UserMedia {
-  userId    String
-  mediaId   String
+  userId    String   @map("user_id")
+  mediaId   String   @map("media_id")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   media     Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@id([userId, mediaId])
+  @@map("user_medias")
 }
 
 model User {
   id         String      @id @default(uuid())
   email      String      @unique
   password   String
-  roleId     String
-  firstName  String
-  lastName   String
-  groupId    String
+  roleId     String      @map("role_id")
+  firstName  String      @map("first_name")
+  lastName   String      @map("last_name")
+  groupId    String      @map("group_id")
   group      Group       @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  isActive   Boolean     @default(true)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @default(now()) @updatedAt
+  isActive   Boolean     @default(true) @map("is_active")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @default(now()) @updatedAt @map("updated_at")
   role       Role        @relation(fields: [roleId], references: [id], onDelete: NoAction)
   posts      Post[]
   userMedias UserMedia[]
   likes      Like[]
   comments   Comment[]
+
+  @@map("users")
 }
 
 model Permission {
   id              String           @id @default(uuid())
   name            String           @unique
   title           String
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @default(now()) @updatedAt
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @default(now()) @updatedAt @map("updated_at")
   rolePermissions RolePermission[]
+
+  @@map("permissions")
 }
 
 model Role {
   id              String           @id @default(uuid())
   name            String           @unique
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @default(now()) @updatedAt
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @default(now()) @updatedAt @map("updated_at")
   rolePermissions RolePermission[]
   users           User[]
+
+  @@map("roles")
 }
 
 model RolePermission {
-  roleId       String
-  permissionId String
+  roleId       String     @map("role_id")
+  permissionId String     @map("permission_id")
   permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @default(now()) @updatedAt
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @default(now()) @updatedAt @map("updated_at")
 
   @@id([roleId, permissionId])
+  @@map("role_permissions")
 }
 
 enum MediaType {
