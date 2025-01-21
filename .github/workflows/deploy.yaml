@@ -44,8 +44,8 @@ jobs:
       # - name: Migrate
       #   run: pnpm prisma migrate deploy
 
-      - name: Run seeds
-        run: pnpm seed
+      - name: Run reset
+        run: pnpm prisma migrate reset
   
   deploy:
     needs: [migrate]
