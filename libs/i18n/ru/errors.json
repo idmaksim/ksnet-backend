@@ -2,6 +2,7 @@
     "badRequest": "Неверный запрос",
     "internalServerError": "Внутренняя ошибка сервера",
     "accessDenied": "У Вас недостаточно прав для выполнения данной операции",
+    "invalidFileType": "Только PNG, JPG и JPEG файлы разрешены",
     "user": {
         "alreadyExists": "Пользователь с таким email уже существует",
         "notFound": "Пользователь не найден",
