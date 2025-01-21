@@ -100,15 +100,6 @@
         "tsConfigPath": "libs/group/tsconfig.lib.json"
       }
     },
-    "post": {
-      "type": "library",
-      "root": "libs/post",
-      "entryFile": "index",
-      "sourceRoot": "libs/post/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/post/tsconfig.lib.json"
-      }
-    },
     "tag": {
       "type": "library",
       "root": "libs/tag",
@@ -116,6 +107,15 @@
       "sourceRoot": "libs/tag/src",
       "compilerOptions": {
         "tsConfigPath": "libs/tag/tsconfig.lib.json"
+      }
+    },
+    "post": {
+      "type": "library",
+      "root": "libs/post",
+      "entryFile": "index",
+      "sourceRoot": "libs/post/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/post/tsconfig.lib.json"
       }
     }
   }

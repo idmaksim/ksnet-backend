@@ -61,15 +61,7 @@ export class UsersRepository {
 
   private getInclude(): Prisma.UserInclude {
     return {
-      role: {
-        include: {
-          rolePermissions: {
-            include: {
-              permission: true,
-            },
-          },
-        },
-      },
+      role: true,
       group: true,
       comments: true,
       likes: true,

@@ -5,7 +5,6 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
-import { GqlExecutionContext } from '@nestjs/graphql';
 import { Observable, tap } from 'rxjs';
 
 @Injectable()
@@ -16,9 +15,7 @@ export class LoggerInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Promise<Observable<any>> {
-    const ctx = GqlExecutionContext.create(context);
-    const request = ctx.getContext().req;
-
+    const request = context.switchToHttp().getRequest();
     const method = request.method;
     const url = request.url;
     const start = new Date();

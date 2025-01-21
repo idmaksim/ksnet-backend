@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TagResolver } from './tag.resolver';
 import { TagModule as LibTagModule } from '@app/tag';
+import { TagController } from './tag.controller';
 
 @Module({
   imports: [LibTagModule],
-  providers: [TagResolver],
+  providers: [],
+  controllers: [TagController],
 })
 export class TagModule {}

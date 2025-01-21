@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
+import { UsersController } from './users.controller';
 import { UsersModule as LibUserModule } from '@app/users';
-import { UsersResolver } from './users.resolver';
-import { PermissionModule } from '@app/permissions';
-
 @Module({
-  imports: [LibUserModule, PermissionModule],
-  providers: [UsersResolver],
+  imports: [LibUserModule],
+  controllers: [UsersController],
 })
 export class UsersModule {}

@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '@app/prisma/prisma.service';
 import { RoleCreateDto } from './dto/role-create.dto';
 import { RoleUpdateDto } from './dto/role-update.dto';
 import { RoleUpdateOptions } from './interfaces/repository.interfaces';
 import { RoleSearchDto } from './dto/role-search.dto';
 import { getPagination, mapStringToSearch } from '@app/prisma';
 import { mapSortToPrisma } from '@app/prisma/sort.base';
-import { Prisma } from '@prisma/client';
-import { PrismaService } from '@app/prisma/prisma.service';
 
 @Injectable()
 export class RoleRepository {
@@ -14,12 +13,6 @@ export class RoleRepository {
 
   async delete(id: string) {
     return this.prisma.role.delete({ where: { id } });
-  }
-
-  async existsByName(name: string, id?: string) {
-    return !!(await this.prisma.role.findFirst({
-      where: { name, id: { not: id } },
-    }));
   }
 
   async create(dto: RoleCreateDto) {
@@ -61,7 +54,6 @@ export class RoleRepository {
   async findOneById(id: string) {
     return this.prisma.role.findUnique({
       where: { id },
-      include: this.getInclude(),
     });
   }
 
@@ -69,7 +61,6 @@ export class RoleRepository {
     return this.prisma.role.findMany({
       where: mapStringToSearch(dto.filters),
       orderBy: mapSortToPrisma(dto.sorts),
-      include: this.getInclude(),
       ...getPagination(dto.pagination),
     });
   }
@@ -87,13 +78,9 @@ export class RoleRepository {
     }));
   }
 
-  private getInclude(): Prisma.RoleInclude {
-    return {
-      rolePermissions: {
-        include: {
-          permission: true,
-        },
-      },
-    };
+  async existsByName(name: string, id?: string) {
+    return !!(await this.prisma.role.findFirst({
+      where: { name, id: { not: id } },
+    }));
   }
 }

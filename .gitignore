@@ -12,12 +12,12 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# OS
+.DS_Store
+
 # SSL
 private.key
 certificate.crt
-
-# OS
-.DS_Store
 
 # Tests
 /coverage

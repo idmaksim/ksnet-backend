@@ -1,21 +1,19 @@
-import { Field, InputType } from '@nestjs/graphql';
 import { IsBoolean, IsOptional } from 'class-validator';
-
 import { IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-@InputType()
 export class PostBaseDto {
+  @ApiProperty({ type: String, nullable: true })
   @IsString()
   @IsOptional()
-  @Field(() => String, { nullable: true })
   description?: string;
 
+  @ApiProperty({ type: String })
   @IsString()
-  @Field(() => String)
   content: string;
 
+  @ApiProperty({ type: String })
   @IsString()
-  @Field(() => String)
   title: string;
 
   @IsBoolean()

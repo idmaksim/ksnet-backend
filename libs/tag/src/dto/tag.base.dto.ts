@@ -1,9 +1,8 @@
 import { IsString } from 'class-validator';
-import { Field, InputType } from '@nestjs/graphql';
+import { ApiProperty } from '@nestjs/swagger';
 
-@InputType()
 export class TagBaseDto {
+  @ApiProperty({ type: String })
   @IsString()
-  @Field(() => String)
   name: string;
 }

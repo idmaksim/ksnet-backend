@@ -4,30 +4,20 @@ import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import config from '../../config/config';
 import { AuthModule } from '../auth/auth.module';
 import { LoggerMiddleware } from '@app/common/middlewares/logger.middleware';
+import { PermissionModule } from 'libs/permissions/src';
+import { PermissionGuard } from '@app/common/guards/permission.guard';
 import { TokenModule } from '@app/token';
 import { UsersModule } from '../users/users.module';
-import { ApolloDriverConfig } from '@nestjs/apollo';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver } from '@nestjs/apollo';
+import { AvatarModule } from '../avatar/avatar.module';
 import { GroupModule } from '../group/group.module';
 import { TagModule } from '../tag/tag.module';
-import { PostModule } from '../post/post.module';
 import { S3Module } from 'nestjs-s3';
-import { AvatarModule } from '../avatar/avatar.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
-    }),
-    GraphQLModule.forRootAsync<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      useFactory: () => ({
-        autoSchemaFile: 'main-schema.gql',
-        context: ({ req, res }) => ({ req, res }),
-        playground: true,
-      }),
     }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',
@@ -37,6 +27,7 @@ import { AvatarModule } from '../avatar/avatar.module';
       },
       loaderOptions: {
         path: `./libs/i18n/`,
+        watch: true,
       },
       resolvers: [AcceptLanguageResolver],
     }),
@@ -60,10 +51,9 @@ import { AvatarModule } from '../avatar/avatar.module';
     AuthModule,
     TokenModule,
     UsersModule,
+    AvatarModule,
     GroupModule,
     TagModule,
-    PostModule,
-    AvatarModule,
   ],
 })
 export class AppModule implements NestModule {
