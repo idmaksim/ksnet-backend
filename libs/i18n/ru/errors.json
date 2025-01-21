@@ -16,5 +16,8 @@
     "role": {
         "notFound": "Роль не найдена",
         "notFoundMany": "Роли не найдены"
+    },
+    "avatar": {
+        "alreadyExists": "Аватар уже существует"
     }
 }
