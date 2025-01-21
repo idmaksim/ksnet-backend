@@ -36,7 +36,9 @@ export class AvatarService implements OnModuleInit {
       Body: file.buffer,
     });
 
-    return this.avatarRepository.create(userId, filename);
+    const url = `${this.configService.get('S3_ENDPOINT')}/${this.bucketName}/${filename}`;
+
+    return this.avatarRepository.create(userId, url, filename);
   }
 
   async deleteAvatarIfExists(userId: string) {
@@ -45,7 +47,7 @@ export class AvatarService implements OnModuleInit {
       try {
         await this.s3.deleteObject({
           Bucket: this.bucketName,
-          Key: avatar.url,
+          Key: avatar.filename,
         });
       } catch (error) {
         throw new InternalServerErrorException(

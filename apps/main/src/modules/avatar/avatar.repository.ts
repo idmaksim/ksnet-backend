@@ -19,11 +19,12 @@ export class AvatarRepository {
     }
   }
 
-  async create(userId: string, url: string) {
+  async create(userId: string, url: string, filename: string) {
     return this.prisma.media.create({
       data: {
         type: MediaType.AVATAR,
         url,
+        filename,
         userMedias: {
           create: {
             userId,
