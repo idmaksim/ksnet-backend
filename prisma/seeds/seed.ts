@@ -5,6 +5,7 @@ import { seedUser } from './user.seed';
 import { groupSeed } from './group.seed';
 import { seedTag } from './tag.seed';
 import { avatarSeed } from './avatar.seed';
+import { postSeed } from './post.seed';
 
 const prisma = new PrismaClient();
 
@@ -26,6 +27,9 @@ async function main() {
 
   await avatarSeed();
   console.log('[+] Avatar created');
+
+  await postSeed(prisma);
+  console.log('[+] Post created');
 
   console.log('[+] All set');
 }

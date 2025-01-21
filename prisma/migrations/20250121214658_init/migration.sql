@@ -49,6 +49,7 @@ CREATE TABLE "likes" (
 CREATE TABLE "posts" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
     "owner_id" TEXT NOT NULL,
     "is_verified" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT,
@@ -147,6 +148,9 @@ CREATE TABLE "role_permissions" (
 
     CONSTRAINT "role_permissions_pkey" PRIMARY KEY ("role_id","permission_id")
 );
+
+-- CreateIndex
+CREATE INDEX "posts_title_description_idx" ON "posts"("title", "description");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "medias_url_key" ON "medias"("url");
