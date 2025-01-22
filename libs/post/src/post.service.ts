@@ -12,12 +12,13 @@ export class PostService {
   ) {}
 
   async search(data: PostSearchDto, userId: string) {
-    const [posts, count] = await Promise.all([
+    const [rawPosts, totalCount] = await Promise.all([
       this.repository.search(data),
       this.repository.count(data),
     ]);
-
-    return { data: await this.mapIsLike(posts, userId), count };
+    const postsWithLikeStatus = await this.mapIsLike(rawPosts, userId);
+    const postsWithLikeCount = await this.calculateLikes(postsWithLikeStatus);
+    return { data: postsWithLikeCount, count: totalCount };
   }
 
   async ensureExistsById(id: string) {
@@ -27,14 +28,23 @@ export class PostService {
     }
   }
 
-  async mapIsLike(posts: Post[], userId: string) {
+  private async mapIsLike(posts: Post[], userId: string) {
     return await Promise.all(
       posts.map(async (post) => {
         return {
           ...post,
-          isLike: post.likes.some((like) => like.userId === userId),
+          isLiked: post.likes.some((like) => like.userId === userId),
         };
       }),
+    );
+  }
+
+  private async calculateLikes(posts: Post[]) {
+    return await Promise.all(
+      posts.map(async ({ likes, ...post }) => ({
+        ...post,
+        likes: likes.length,
+      })),
     );
   }
 }
