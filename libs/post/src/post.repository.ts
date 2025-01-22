@@ -105,7 +105,7 @@ export class PostRepository {
       postTags: {
         some: {
           tag: {
-            name: {
+            id: {
               in: data.filters?.tags,
             },
           },
