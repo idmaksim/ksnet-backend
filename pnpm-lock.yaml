@@ -80,6 +80,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
+      transliteration:
+        specifier: ^2.3.5
+        version: 2.3.5
     devDependencies:
       '@nestjs/cli':
         specifier: ^10.0.0
@@ -3195,6 +3198,11 @@ packages:
 
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+
+  transliteration@2.3.5:
+    resolution: {integrity: sha512-HAGI4Lq4Q9dZ3Utu2phaWgtm3vB6PkLUFqWAScg/UW+1eZ/Tg6Exo4oC0/3VUol/w4BlefLhUUSVBr/9/ZGQOw==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
 
   tree-kill@1.2.2:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
@@ -7376,6 +7384,10 @@ snapshots:
   toidentifier@1.0.1: {}
 
   tr46@0.0.3: {}
+
+  transliteration@2.3.5:
+    dependencies:
+      yargs: 17.7.2
 
   tree-kill@1.2.2: {}
 
