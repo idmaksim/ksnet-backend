@@ -14,8 +14,6 @@ import { PostService as LibPostService } from '@app/post/post.service';
 
 @Controller('post')
 @ApiTags('Post')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard, ActiveGuard, PermissionGuard)
 export class PostController {
   constructor(
     private readonly service: PostService,
@@ -23,6 +21,8 @@ export class PostController {
   ) {}
 
   @Post()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionGuard)
   async create(@Body() body: PostCreateDto, @DecodeUser() user: User) {
     return this.service.create(body, user.id);
   }
