@@ -29,6 +29,6 @@ export class PostController {
 
   @Post('search')
   async search(@Body() body: PostSearchDto, @DecodeUser() user: User) {
-    return this.libService.search(body, user.id);
+    return this.libService.search(body, user?.id);
   }
 }

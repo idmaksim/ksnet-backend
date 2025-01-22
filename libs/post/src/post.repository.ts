@@ -26,6 +26,11 @@ export class PostRepository {
             tag: true,
           },
         },
+        postMedias: {
+          include: {
+            media: true,
+          },
+        },
         likes: true,
         owner: true,
       },
