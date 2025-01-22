@@ -63,9 +63,6 @@ export class UsersRepository {
     return {
       role: true,
       group: true,
-      comments: true,
-      likes: true,
-      posts: true,
       userMedias: {
         include: {
           media: true,
