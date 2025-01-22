@@ -6,6 +6,9 @@ export class UserBaseDto {
   @IsEmail()
   email: string;
 
+  @IsString()
+  username: string;
+
   @ApiProperty({ type: String })
   @IsString()
   firstName: string;

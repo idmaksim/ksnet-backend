@@ -53,7 +53,8 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "transliteration": "^2.3.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -111,7 +112,8 @@
       "^@app/prisma(|/.*)$": "<rootDir>/libs/prisma/src/$1",
       "^@app/group(|/.*)$": "<rootDir>/libs/group/src/$1",
       "^@app/tag(|/.*)$": "<rootDir>/libs/tag/src/$1",
-      "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1"
+      "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1",
+      "^@app/like(|/.*)$": "<rootDir>/libs/like/src/$1"
     }
   }
 }

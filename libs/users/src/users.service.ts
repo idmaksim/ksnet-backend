@@ -13,6 +13,7 @@ import {
   FindOneByIdOptions,
 } from './interfaces/service.interfaces';
 import { GroupService } from '@app/group';
+import { transliterate } from 'transliteration';
 
 @Injectable()
 export class UsersService {
@@ -26,14 +27,26 @@ export class UsersService {
   async create(dto: UserCreateDto) {
     await this.ensureExistsByEmail(dto.email);
     await this.groupService.ensureExistsById(dto.groupId);
+
+    const username = await this.generateUsername(dto.firstName, dto.lastName);
     const hashedPassword = await this.passwordService.hashPassword(
       dto.password,
     );
+
     const user = await this.usersRepository.create({
       ...dto,
+      username,
       password: hashedPassword,
     });
     return this.deletePassword(user);
+  }
+
+  private async generateUsername(firstName: string, lastName: string) {
+    const baseUsername = transliterate(
+      `${firstName}_${lastName}`,
+    ).toLowerCase();
+    const randomNum = Math.floor(Math.random() * 900) + 100;
+    return `${baseUsername}_${randomNum}`;
   }
 
   async findOneByEmail(options: FindOneByEmailOptions) {

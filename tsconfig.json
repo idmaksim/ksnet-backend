@@ -77,6 +77,12 @@
       ],
       "@app/post/*": [
         "libs/post/src/*"
+      ],
+      "@app/like": [
+        "libs/like/src"
+      ],
+      "@app/like/*": [
+        "libs/like/src/*"
       ]
     }
   }

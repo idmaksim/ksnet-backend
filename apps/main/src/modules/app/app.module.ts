@@ -13,6 +13,7 @@ import { GroupModule } from '../group/group.module';
 import { TagModule } from '../tag/tag.module';
 import { S3Module } from 'nestjs-s3';
 import { PostModule } from '../post/post.module';
+import { LikeModule } from '../like/like.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { PostModule } from '../post/post.module';
     GroupModule,
     TagModule,
     PostModule,
+    LikeModule,
   ],
 })
 export class AppModule implements NestModule {

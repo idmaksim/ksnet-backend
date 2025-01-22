@@ -22,7 +22,7 @@ export class UsersRepository {
     });
   }
 
-  async create({ groupId, ...dto }: UserCreateDto) {
+  async create({ groupId, ...dto }: UserCreateDto & { username: string }) {
     return this.prisma.user.create({
       data: {
         ...dto,
