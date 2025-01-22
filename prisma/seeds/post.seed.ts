@@ -77,7 +77,7 @@ const createPost = async (
       title: `Post ${index + 1}`,
       content,
       description,
-      url: imageUrl,
+      url: 'https://example.com',
       ownerId,
       postMedias: {
         create: {
