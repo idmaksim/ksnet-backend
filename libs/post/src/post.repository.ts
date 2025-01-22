@@ -1,4 +1,3 @@
-import { tags } from './../../../prisma/seeds/tag.seed';
 import { PrismaService } from '@app/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { PostSearchDto } from './dto/post.search.dto';
@@ -21,6 +20,14 @@ export class PostRepository {
   async search(data: PostSearchDto) {
     return this.prisma.post.findMany({
       where: this.buildWhere(data),
+      include: {
+        postTags: {
+          include: {
+            tag: true,
+          },
+        },
+        likes: true,
+      },
       orderBy: mapSortToPrisma(data.sort),
       ...getPagination(data.pagination),
     });
