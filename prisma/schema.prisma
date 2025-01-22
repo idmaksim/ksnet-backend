@@ -92,7 +92,7 @@ model PostMedia {
 
 model Media {
   id         String      @id @default(uuid())
-  url        String      @unique
+  url        String
   filename   String
   type       MediaType
   createdAt  DateTime    @default(now()) @map("created_at")

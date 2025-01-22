@@ -154,9 +154,6 @@ CREATE TABLE "role_permissions" (
 CREATE INDEX "posts_title_description_idx" ON "posts"("title", "description");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "medias_url_key" ON "medias"("url");
-
--- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
