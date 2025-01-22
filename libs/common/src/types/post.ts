@@ -9,5 +9,10 @@ export type Post = Prisma.PostGetPayload<{
     };
     likes: true;
     owner: true;
+    postMedias: {
+      include: {
+        media: true;
+      };
+    };
   };
 }>;

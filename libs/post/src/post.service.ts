@@ -11,7 +11,7 @@ export class PostService {
     private readonly i18n: I18nService,
   ) {}
 
-  async search(data: PostSearchDto, userId: string) {
+  async search(data: PostSearchDto, userId?: string) {
     const [rawPosts, totalCount] = await Promise.all([
       this.repository.search(data),
       this.repository.count(data),
@@ -28,7 +28,15 @@ export class PostService {
     }
   }
 
-  private async mapIsLike(posts: Post[], userId: string) {
+  private async mapIsLike(posts: Post[], userId?: string) {
+    if (!userId) {
+      return await Promise.all(
+        posts.map((post) => ({
+          ...post,
+          isLiked: false,
+        })),
+      );
+    }
     return await Promise.all(
       posts.map(async (post) => {
         return {

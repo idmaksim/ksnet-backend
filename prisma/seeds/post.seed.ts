@@ -1,4 +1,114 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { MediaType, Prisma, PrismaClient } from '@prisma/client';
+import { readdirSync, readFileSync } from 'fs';
+import * as fs from 'fs';
+
+const images = readdirSync('./prisma/seeds/data');
+
+const s3Client = new S3Client({
+  region: process.env.S3_REGION,
+  endpoint: process.env.S3_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  },
+});
+
+const getRandomElement = <T>(array: T[]): T => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
+const uploadImageToS3 = async (filename: string): Promise<string> => {
+  const file = readFileSync(`./prisma/seeds/data/${filename}`);
+  await s3Client.send(
+    new PutObjectCommand({
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: filename,
+      Body: file,
+    }),
+  );
+  return `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET_NAME}/${filename}`;
+};
+
+const createMedia = async (
+  prisma: PrismaClient,
+  imageUrl: string,
+  filename: string,
+) => {
+  const existingMedia = await prisma.media.findFirst({
+    where: {
+      OR: [{ url: imageUrl }, { filename: filename }],
+    },
+  });
+
+  if (existingMedia) {
+    return existingMedia;
+  }
+
+  return await prisma.media.create({
+    data: {
+      type: MediaType.POST,
+      url: imageUrl,
+      filename,
+    },
+  });
+};
+
+const createPost = async (
+  prisma: PrismaClient,
+  {
+    index,
+    content,
+    description,
+    imageUrl,
+    ownerId,
+    mediaId,
+  }: {
+    index: number;
+    content: string;
+    description: string;
+    imageUrl: string;
+    ownerId: string;
+    mediaId: string;
+  },
+) =>
+  await prisma.post.create({
+    data: {
+      title: `Post ${index + 1}`,
+      content,
+      description,
+      url: imageUrl,
+      ownerId,
+      postMedias: {
+        create: {
+          mediaId,
+        },
+      },
+    },
+  });
+
+export const postSeed = async (prisma: PrismaClient) => {
+  const owner = await prisma.user.findFirst();
+
+  const posts = await Promise.all(
+    Array.from({ length: 50 }, async (_, index) => {
+      const randomImage = getRandomElement(images);
+      const imageUrl = await uploadImageToS3(randomImage);
+      const media = await createMedia(prisma, imageUrl, randomImage);
+
+      return createPost(prisma, {
+        index,
+        content: getRandomElement(contents),
+        description: getRandomElement(descriptions),
+        imageUrl,
+        ownerId: owner.id,
+        mediaId: media.id,
+      });
+    }),
+  );
+
+  return posts;
+};
 
 const contents: string[] = [
   `
@@ -34,17 +144,3 @@ const descriptions: string[] = [
 	Последние 10 лет я занимаюсь java разработкой и на протяжении всего этого времени Intellij Idea является неотъемлемой частью моей(да и многих других джавистов) работы
 	`,
 ];
-
-export const postSeed = async (prisma: PrismaClient) => {
-  const owner = await prisma.user.findFirst();
-
-  await prisma.post.createMany({
-    data: contents.map((content, index) => ({
-      title: `Post ${index + 1}`,
-      content,
-      description: descriptions[index],
-      url: `https://example.com/post${index + 1}`,
-      ownerId: owner.id,
-    })),
-  });
-};
