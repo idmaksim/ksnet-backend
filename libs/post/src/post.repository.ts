@@ -73,7 +73,7 @@ export class PostRepository {
   private buildWhere(data: PostSearchDto): Prisma.PostWhereInput {
     const filters = { ...data.filters };
     const query = filters?.query;
-    const tags = filters?.tags;
+
     delete filters?.query;
     delete filters?.tags;
 
@@ -101,13 +101,18 @@ export class PostRepository {
     };
 
     if (data.filters?.tags && data.filters.tags.length > 0) {
-      where.postTags = {
-        some: {
-          tag: {
-            id: { in: data.filters?.tags },
+      const tagConditions = data.filters.tags.map((tagId) => ({
+        postTags: {
+          some: {
+            tag: {
+              id: tagId,
+            },
           },
         },
-      };
+      }));
+      where.AND = Array.isArray(where.AND)
+        ? [...where.AND, ...tagConditions]
+        : [...(where.AND ? [where.AND] : []), ...tagConditions];
     }
 
     return where;
