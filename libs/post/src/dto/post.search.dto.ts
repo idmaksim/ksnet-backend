@@ -10,6 +10,11 @@ export class PostFiltersDto {
   @IsOptional()
   ownerId?: string;
 
+  @ApiProperty({ type: [String] })
+  @IsString({ each: true })
+  @IsOptional()
+  tags?: string[];
+
   @ApiProperty()
   @IsString()
   @IsOptional()

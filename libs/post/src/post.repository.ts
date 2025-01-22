@@ -22,17 +22,42 @@ export class PostRepository {
       where: this.buildWhere(data),
       include: {
         postTags: {
-          include: {
-            tag: true,
+          select: {
+            tag: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
           },
         },
         postMedias: {
-          include: {
-            media: true,
+          select: {
+            media: {
+              select: {
+                url: true,
+                id: true,
+              },
+            },
           },
         },
         likes: true,
-        owner: true,
+        owner: {
+          select: {
+            id: true,
+            firstName: true,
+            userMedias: {
+              select: {
+                media: {
+                  select: {
+                    url: true,
+                  },
+                },
+              },
+            },
+            lastName: true,
+          },
+        },
       },
       orderBy: mapSortToPrisma(data.sort),
       ...getPagination(data.pagination),
@@ -71,6 +96,21 @@ export class PostRepository {
     return {
       ...mapStringToSearch(filters, ['query']),
       ...(searchConditions.length > 0 ? { OR: searchConditions } : {}),
+      ...this.buildPostTagsCondition(data),
+    };
+  }
+
+  private buildPostTagsCondition(data: PostSearchDto): Prisma.PostWhereInput {
+    return {
+      postTags: {
+        some: {
+          tag: {
+            name: {
+              in: data.filters?.tags,
+            },
+          },
+        },
+      },
     };
   }
 }

@@ -102,10 +102,8 @@ export const postSeed = async (prisma: PrismaClient) => {
       const randomImage = getRandomElement(images);
       const imageUrl = await uploadImageToS3(randomImage);
       const media = await createMedia(prisma, imageUrl, randomImage);
-      const randomTags = getRandomElements(
-        tags,
-        Math.floor(Math.random() * tags.length) + 1,
-      );
+      const tagCount = 5 + Math.floor(Math.random() * 2);
+      const randomTags = getRandomElements(tags, tagCount);
 
       return createPost(prisma, {
         index,
