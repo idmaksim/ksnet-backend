@@ -27,6 +27,7 @@ export class PostRepository {
           },
         },
         likes: true,
+        owner: true,
       },
       orderBy: mapSortToPrisma(data.sort),
       ...getPagination(data.pagination),
