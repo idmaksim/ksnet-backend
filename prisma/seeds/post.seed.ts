@@ -63,6 +63,7 @@ const createPost = async (
     imageUrl,
     ownerId,
     mediaId,
+    tagIds,
   }: {
     index: number;
     content: string;
@@ -70,6 +71,7 @@ const createPost = async (
     imageUrl: string;
     ownerId: string;
     mediaId: string;
+    tagIds: string[];
   },
 ) =>
   await prisma.post.create({
@@ -84,17 +86,26 @@ const createPost = async (
           mediaId,
         },
       },
+      postTags: {
+        create: tagIds.map((tagId) => ({ tagId })),
+      },
     },
   });
 
 export const postSeed = async (prisma: PrismaClient) => {
   const owner = await prisma.user.findFirst();
 
+  const tags = await prisma.tag.findMany();
+
   const posts = await Promise.all(
     Array.from({ length: 50 }, async (_, index) => {
       const randomImage = getRandomElement(images);
       const imageUrl = await uploadImageToS3(randomImage);
       const media = await createMedia(prisma, imageUrl, randomImage);
+      const randomTags = getRandomElements(
+        tags,
+        Math.floor(Math.random() * tags.length) + 1,
+      );
 
       return createPost(prisma, {
         index,
@@ -103,6 +114,7 @@ export const postSeed = async (prisma: PrismaClient) => {
         imageUrl,
         ownerId: owner.id,
         mediaId: media.id,
+        tagIds: randomTags.map((tag) => tag.id),
       });
     }),
   );
@@ -144,3 +156,8 @@ const descriptions: string[] = [
 	Последние 10 лет я занимаюсь java разработкой и на протяжении всего этого времени Intellij Idea является неотъемлемой частью моей(да и многих других джавистов) работы
 	`,
 ];
+
+const getRandomElements = <T>(array: T[], count: number): T[] => {
+  const shuffled = array.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+};
