@@ -73,7 +73,9 @@ export class PostRepository {
   private buildWhere(data: PostSearchDto): Prisma.PostWhereInput {
     const filters = { ...data.filters };
     const query = filters?.query;
+    const tags = filters?.tags;
     delete filters?.query;
+    delete filters?.tags;
 
     const searchConditions = [];
 
@@ -93,24 +95,21 @@ export class PostRepository {
       );
     }
 
-    return {
+    const where: Prisma.PostWhereInput = {
       ...mapStringToSearch(filters, ['query']),
       ...(searchConditions.length > 0 ? { OR: searchConditions } : {}),
-      ...this.buildPostTagsCondition(data),
     };
-  }
 
-  private buildPostTagsCondition(data: PostSearchDto): Prisma.PostWhereInput {
-    return {
-      postTags: {
+    if (data.filters?.tags && data.filters.tags.length > 0) {
+      where.postTags = {
         some: {
           tag: {
-            id: {
-              in: data.filters?.tags,
-            },
+            id: { in: data.filters?.tags },
           },
         },
-      },
-    };
+      };
+    }
+
+    return where;
   }
 }
