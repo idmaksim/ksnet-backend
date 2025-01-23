@@ -13,6 +13,17 @@ export class LikeService {
     private readonly i18n: I18nService,
   ) {}
 
+  async ensureAlreadyExistsByUserIdAndPostId(userId: string, postId: string) {
+    const exists = await this.likeRepository.existsByUserIdAndPostId(
+      userId,
+      postId,
+    );
+
+    if (!exists) {
+      throw new NotFoundException(this.i18n.t('errors.like.notFound'));
+    }
+  }
+
   async ensureExistsByUserIdAndPostId(userId: string, postId: string) {
     const exists = await this.likeRepository.existsByUserIdAndPostId(
       userId,

@@ -20,9 +20,9 @@ export class LikeRepository {
     });
   }
 
-  async delete(id: string) {
-    return this.prisma.like.delete({
-      where: { id },
+  async delete(userId: string, postId: string) {
+    return this.prisma.like.deleteMany({
+      where: { userId, postId },
     });
   }
 }
