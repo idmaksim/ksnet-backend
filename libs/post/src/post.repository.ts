@@ -41,7 +41,11 @@ export class PostRepository {
             },
           },
         },
-        likes: true,
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
         owner: {
           select: {
             id: true,

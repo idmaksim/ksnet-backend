@@ -22,7 +22,11 @@ export type Post = Prisma.PostGetPayload<{
         };
       };
     };
-    likes: true;
+    likes: {
+      select: {
+        userId: true;
+      };
+    };
     owner: {
       select: {
         id: true;
