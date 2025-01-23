@@ -16,9 +16,12 @@ export class LikeService {
     return this.likeRepository.create(userId, postId);
   }
 
-  async delete(id: string) {
-    await this.libLikeService.ensureExistsById(id);
-    return this.likeRepository.delete(id);
+  async delete(userId: string, postId: string) {
+    await this.libLikeService.ensureAlreadyExistsByUserIdAndPostId(
+      userId,
+      postId,
+    );
+    return this.likeRepository.delete(userId, postId);
   }
 
   async findOneById(id: string) {

@@ -3,7 +3,6 @@ import { LikeService } from './like.service';
 import { JwtAuthGuard } from '@app/common/guards/auth.guard';
 import { ActiveGuard, DecodeUser, PermissionGuard, User } from '@app/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { CanDeleteGuard } from './guards/can-delete.guard';
 
 @Controller('like')
 @ApiBearerAuth()
@@ -16,9 +15,8 @@ export class LikeController {
     return this.likeService.create(user.id, postId);
   }
 
-  @Delete(':id')
-  @UseGuards(CanDeleteGuard)
-  async delete(@Param('id') id: string) {
-    return this.likeService.delete(id);
+  @Delete(':postId')
+  async delete(@Param('postId') postId: string, @DecodeUser() user: User) {
+    return this.likeService.delete(user.id, postId);
   }
 }
