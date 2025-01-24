@@ -11,9 +11,11 @@ export class PostService {
   ) {}
 
   private async validateTags(dto: PostCreateDto) {
-    await Promise.all(
-      dto.tags.map((tag) => this.tagService.ensureExistsById(tag)),
-    );
+    if (dto.tags) {
+      await Promise.all(
+        dto.tags.map((tag) => this.tagService.ensureExistsById(tag)),
+      );
+    }
   }
 
   async create(data: PostCreateDto, userId: string) {

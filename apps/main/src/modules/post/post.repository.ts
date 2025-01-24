@@ -11,13 +11,15 @@ export class PostRepository {
       data: {
         ...data,
         ownerId: userId,
-        postTags: {
-          createMany: {
-            data: data.tags.map((tagId) => ({
-              tagId: tagId,
-            })),
-          },
-        },
+        postTags: data.tags
+          ? {
+              createMany: {
+                data: data.tags.map((tagId) => ({
+                  tagId: tagId,
+                })),
+              },
+            }
+          : undefined,
       },
     });
   }
