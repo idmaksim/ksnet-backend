@@ -1,9 +1,8 @@
+import { USER_INCLUDE } from './include/user';
 import { Prisma } from '@prisma/client';
 
 export type User = Prisma.UserGetPayload<{
-  include: {
-    role: true;
-  };
+  include: typeof USER_INCLUDE;
 }>;
 
 export type UserWithoutPassword = Omit<User, 'password'>;

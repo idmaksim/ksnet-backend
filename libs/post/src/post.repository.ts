@@ -1,9 +1,10 @@
 import { PrismaService } from '@app/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { PostSearchDto } from './dto/post.search.dto';
-import { getPagination, mapStringToSearch } from '@app/prisma';
-import { mapSortToPrisma } from '@app/prisma/sort.base';
+import { mapPagination, mapSearch } from '@app/prisma';
+import { mapSort } from '@app/prisma/sort.map';
 import { Prisma } from '@prisma/client';
+import { POST_INCLUDE } from '@app/common/types/include/post';
 
 @Injectable()
 export class PostRepository {
@@ -20,51 +21,9 @@ export class PostRepository {
   async search(data: PostSearchDto) {
     return this.prisma.post.findMany({
       where: this.buildWhere(data),
-      include: {
-        postTags: {
-          select: {
-            tag: {
-              select: {
-                name: true,
-                id: true,
-              },
-            },
-          },
-        },
-        postMedias: {
-          select: {
-            media: {
-              select: {
-                url: true,
-                id: true,
-              },
-            },
-          },
-        },
-        likes: {
-          select: {
-            userId: true,
-          },
-        },
-        owner: {
-          select: {
-            id: true,
-            firstName: true,
-            userMedias: {
-              select: {
-                media: {
-                  select: {
-                    url: true,
-                  },
-                },
-              },
-            },
-            lastName: true,
-          },
-        },
-      },
-      orderBy: mapSortToPrisma(data.sort),
-      ...getPagination(data.pagination),
+      include: POST_INCLUDE,
+      orderBy: mapSort(data.sort),
+      ...mapPagination(data.pagination),
     });
   }
 
@@ -81,7 +40,7 @@ export class PostRepository {
     delete filters?.query;
     delete filters?.tags;
 
-    const searchConditions = [];
+    const searchConditions: Prisma.PostWhereInput[] = [];
 
     if (query) {
       searchConditions.push(
@@ -100,7 +59,7 @@ export class PostRepository {
     }
 
     const where: Prisma.PostWhereInput = {
-      ...mapStringToSearch(filters, ['query']),
+      ...mapSearch(filters, ['query']),
       ...(searchConditions.length > 0 ? { OR: searchConditions } : {}),
     };
 

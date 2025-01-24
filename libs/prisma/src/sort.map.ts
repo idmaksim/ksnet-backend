@@ -1,4 +1,4 @@
-export function mapSortToPrisma(sorts: any, excludedValues: string[] = []) {
+export function mapSort(sorts: any, excludedValues: string[] = []) {
   if (!sorts) {
     return [];
   }
