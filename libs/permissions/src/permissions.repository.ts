@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@app/prisma/prisma.service';
 import { PermissionSearchDto } from './dto/permission-search.dto';
-import { getPagination, mapStringToSearch } from '@app/prisma';
-import { mapSortToPrisma } from '@app/prisma/sort.base';
+import { mapPagination, mapSearch } from '@app/prisma';
+import { mapSort } from '@app/prisma/sort.map';
 
 @Injectable()
 export class PermissionRepository {
@@ -14,15 +14,15 @@ export class PermissionRepository {
 
   async search(dto: PermissionSearchDto) {
     return this.prisma.permission.findMany({
-      where: mapStringToSearch(dto.filters),
-      orderBy: mapSortToPrisma(dto.sorts),
-      ...getPagination(dto.pagination),
+      where: mapSearch(dto.filters),
+      orderBy: mapSort(dto.sorts),
+      ...mapPagination(dto.pagination),
     });
   }
 
   async count(dto: PermissionSearchDto) {
     return this.prisma.permission.count({
-      where: mapStringToSearch(dto.filters),
+      where: mapSearch(dto.filters),
     });
   }
 

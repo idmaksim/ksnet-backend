@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UserCreateDto } from './dto/user-create.dto';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from '@app/prisma/prisma.service';
 import { BaseRoleEnum } from '@app/common/constants/base-roles.enum';
+import { USER_INCLUDE } from '@app/common/types/include/user';
 
 @Injectable()
 export class UsersRepository {
@@ -11,14 +11,14 @@ export class UsersRepository {
   async findOneById(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
-      include: this.getInclude(),
+      include: USER_INCLUDE,
     });
   }
 
   async findOneByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },
-      include: this.getInclude(),
+      include: USER_INCLUDE,
     });
   }
 
@@ -37,7 +37,7 @@ export class UsersRepository {
           },
         },
       },
-      include: this.getInclude(),
+      include: USER_INCLUDE,
     });
   }
 
@@ -57,17 +57,5 @@ export class UsersRepository {
         id: true,
       },
     }));
-  }
-
-  private getInclude(): Prisma.UserInclude {
-    return {
-      role: true,
-      group: true,
-      userMedias: {
-        include: {
-          media: true,
-        },
-      },
-    };
   }
 }

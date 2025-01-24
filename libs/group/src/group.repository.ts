@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@app/prisma/prisma.service';
 import { GroupSearchDto } from './dto/group.search.dto';
-import { getPagination, mapStringToSearch } from '@app/prisma';
-import { mapSortToPrisma } from '@app/prisma/sort.base';
+import { mapPagination, mapSearch } from '@app/prisma';
+import { mapSort } from '@app/prisma/sort.map';
 
 @Injectable()
 export class GroupRepository {
@@ -10,9 +10,9 @@ export class GroupRepository {
 
   async search(searchDto: GroupSearchDto) {
     return this.prisma.group.findMany({
-      where: mapStringToSearch(searchDto.filters),
-      orderBy: mapSortToPrisma(searchDto.sort),
-      ...getPagination(searchDto.pagination),
+      where: mapSearch(searchDto.filters),
+      orderBy: mapSort(searchDto.sort),
+      ...mapPagination(searchDto.pagination),
     });
   }
 
@@ -29,7 +29,7 @@ export class GroupRepository {
 
   async count(searchDto: GroupSearchDto) {
     return this.prisma.group.count({
-      where: mapStringToSearch(searchDto.filters),
+      where: mapSearch(searchDto.filters),
     });
   }
 }
