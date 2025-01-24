@@ -8,7 +8,17 @@ export class PostRepository {
 
   async create(data: PostCreateDto, userId: string) {
     return this.prisma.post.create({
-      data: { ...data, ownerId: userId },
+      data: {
+        ...data,
+        ownerId: userId,
+        postTags: {
+          createMany: {
+            data: data.tags.map((tagId) => ({
+              tagId: tagId,
+            })),
+          },
+        },
+      },
     });
   }
 }

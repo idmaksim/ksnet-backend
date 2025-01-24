@@ -21,4 +21,13 @@ export class TagRepository {
       where: mapSearch(dto.filters),
     });
   }
+
+  async existsById(id: string) {
+    const tag = await this.prisma.tag.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+
+    return !!tag;
+  }
 }
