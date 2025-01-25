@@ -5,9 +5,14 @@ import helmet from 'helmet';
 import { ValidationPipe } from '@nestjs/common';
 import { LoggerInterceptor } from '@app/common';
 import { DocumentBuilder } from '@nestjs/swagger';
+import * as fs from 'fs';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const httpsOptions = {
+    key: fs.readFileSync('./private.key'),
+    cert: fs.readFileSync('./certificate.crt'),
+  };
+  const app = await NestFactory.create(AppModule, { httpsOptions });
 
   app.setGlobalPrefix('api');
   app.use(helmet()); // https://docs.nestjs.com/security/helmet

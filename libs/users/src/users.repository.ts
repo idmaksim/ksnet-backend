@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { UserCreateDto } from './dto/user-create.dto';
 import { PrismaService } from '@app/prisma/prisma.service';
 import { BaseRoleEnum } from '@app/common/constants/base-roles.enum';
-import { USER_INCLUDE } from '@app/common/types/include/user';
+import { USER_INCLUDE, USER_SELECT } from '@app/common/types/include/user';
+import { mapPagination, mapSearch } from '@app/prisma';
+import { mapSort } from '@app/prisma/sort.map';
+import { UserSearchDto } from './dto/user.search.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -19,6 +22,21 @@ export class UsersRepository {
     return this.prisma.user.findUnique({
       where: { email },
       include: USER_INCLUDE,
+    });
+  }
+
+  async search(dto: UserSearchDto) {
+    return this.prisma.user.findMany({
+      where: mapSearch(dto.filters),
+      orderBy: mapSort(dto.sort),
+      ...mapPagination(dto.pagination),
+      select: USER_SELECT,
+    });
+  }
+
+  async count(dto: UserSearchDto) {
+    return this.prisma.user.count({
+      where: mapSearch(dto.filters),
     });
   }
 

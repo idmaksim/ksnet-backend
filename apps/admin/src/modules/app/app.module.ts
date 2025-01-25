@@ -7,6 +7,7 @@ import config from '../../config/config';
 import { TokenModule } from '@app/token';
 import { RoleModule } from '../role/role.module';
 import { PermissionsModule } from '../permissions/permissions.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { PermissionsModule } from '../permissions/permissions.module';
     TokenModule,
     RoleModule,
     PermissionsModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

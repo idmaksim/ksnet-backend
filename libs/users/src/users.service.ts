@@ -14,6 +14,7 @@ import {
 } from './interfaces/service.interfaces';
 import { GroupService } from '@app/group';
 import { transliterate } from 'transliteration';
+import { UserSearchDto } from './dto/user.search.dto';
 
 @Injectable()
 export class UsersService {
@@ -23,6 +24,14 @@ export class UsersService {
     private readonly groupService: GroupService,
     private readonly i18n: I18nService,
   ) {}
+
+  async search(dto: UserSearchDto) {
+    const [data, count] = await Promise.all([
+      this.usersRepository.search(dto),
+      this.usersRepository.count(dto),
+    ]);
+    return { data, count };
+  }
 
   async create(dto: UserCreateDto) {
     await this.ensureExistsByEmail(dto.email);
