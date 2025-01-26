@@ -16,6 +16,7 @@ export enum PermissionEnum {
   UserSearch = 'user:search',
 
   PostVerify = 'post:verify',
+  PostUpdateFakeLikes = 'post:update-fake-likes',
 }
 
 export const PermissionTitles: Record<PermissionEnum, string> = {
@@ -36,4 +37,5 @@ export const PermissionTitles: Record<PermissionEnum, string> = {
   [PermissionEnum.UserSearch]: 'Поиск пользователей',
 
   [PermissionEnum.PostVerify]: 'Верификация постов',
+  [PermissionEnum.PostUpdateFakeLikes]: 'Обновление фейковых лайков',
 };

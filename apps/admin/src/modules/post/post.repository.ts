@@ -11,4 +11,11 @@ export class PostRepository {
       data: { isVerified },
     });
   }
+
+  async updateFakeLikes(id: string, fakeLikes: number) {
+    return this.prisma.post.update({
+      where: { id },
+      data: { fakeLikes },
+    });
+  }
 }

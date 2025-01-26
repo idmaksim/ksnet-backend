@@ -13,4 +13,9 @@ export class PostService {
     await this.libService.ensureExistsById(id);
     return this.repository.verify(id, isVerified);
   }
+
+  async updateFakeLikes(id: string, fakeLikes: number) {
+    await this.libService.ensureExistsById(id);
+    return this.repository.updateFakeLikes(id, fakeLikes);
+  }
 }

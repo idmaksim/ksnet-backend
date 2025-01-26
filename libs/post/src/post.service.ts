@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PostRepository } from './post.repository';
 import { I18nService } from 'nestjs-i18n';
 import { PostSearchDto } from './dto/post.search.dto';
-import { Post } from '@app/common/types/post';
+import { Post, PostWithLikes } from '@app/common/types/post';
 
 @Injectable()
 export class PostService {
@@ -17,7 +17,9 @@ export class PostService {
       this.repository.count(data),
     ]);
     const postsWithLikeCount = await this.calculateLikes(rawPosts);
-    return { data: postsWithLikeCount, count: totalCount };
+    const postsWithFakeLikesCount =
+      await this.calculateFakeLikes(postsWithLikeCount);
+    return { data: postsWithFakeLikesCount, count: totalCount };
   }
 
   async ensureExistsById(id: string) {
@@ -27,11 +29,21 @@ export class PostService {
     }
   }
 
-  private async calculateLikes(posts: Post[]) {
+  private async calculateLikes(posts: Post[]): Promise<PostWithLikes[]> {
     return await Promise.all(
       posts.map(async (post) => ({
         ...post,
         likesCount: post.likes.length,
+      })),
+    );
+  }
+
+  private async calculateFakeLikes(posts: PostWithLikes[]) {
+    return await Promise.all(
+      posts.map(async (post) => ({
+        ...post,
+        likesCount: post.likesCount + post.fakeLikes,
+        fakeLikes: undefined,
       })),
     );
   }

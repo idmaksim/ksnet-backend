@@ -7,6 +7,7 @@ import { HasPermissions, JwtAuthGuard, PermissionEnum } from '@app/common';
 import { ActiveGuard } from '@app/common';
 import { PermissionGuard } from '@app/common';
 import { PostVerifyDto } from './dto/post.verify.dto';
+import { PostUpdateFakeLikesDto } from './dto/post.fake-likes.dto';
 
 @Controller('post')
 @ApiTags('Post')
@@ -27,5 +28,14 @@ export class PostController {
   @HasPermissions(PermissionEnum.PostVerify)
   async verify(@Param('id') id: string, @Body() body: PostVerifyDto) {
     return this.service.verify(id, body.isVerified);
+  }
+
+  @Post(':id/update-fake-likes')
+  @HasPermissions(PermissionEnum.PostUpdateFakeLikes)
+  async updateFakeLikes(
+    @Param('id') id: string,
+    @Body() body: PostUpdateFakeLikesDto,
+  ) {
+    return this.service.updateFakeLikes(id, body.fakeLikes);
   }
 }
