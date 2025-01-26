@@ -20,15 +20,6 @@ export class PostService {
     return { data: postsWithLikeCount, count };
   }
 
-  async searchByIds(ids: string[]) {
-    const [rawPosts, count] = await Promise.all([
-      this.repository.searchByIds(ids),
-      this.repository.countByIds(ids),
-    ]);
-    const postsWithLikeCount = await this.mapAdditionalFields(rawPosts);
-    return { data: postsWithLikeCount, count };
-  }
-
   async ensureExistsById(id: string) {
     const exists = await this.repository.existsById(id);
     if (!exists) {

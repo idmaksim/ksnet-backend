@@ -27,19 +27,6 @@ export class PostRepository {
     });
   }
 
-  async searchByIds(ids: string[]) {
-    return this.prisma.post.findMany({
-      where: { id: { in: ids } },
-      include: POST_INCLUDE,
-    });
-  }
-
-  async countByIds(ids: string[]) {
-    return this.prisma.post.count({
-      where: { id: { in: ids } },
-    });
-  }
-
   async count(data: PostSearchDto) {
     return this.prisma.post.count({
       where: PostRepository.buildWhere(data),
@@ -49,9 +36,11 @@ export class PostRepository {
   static buildWhere(data: PostSearchDto): Prisma.PostWhereInput {
     const filters = { ...data.filters };
     const query = filters?.query;
+    const isTop = filters?.isTop;
 
     delete filters?.query;
     delete filters?.tags;
+    delete filters?.isTop;
 
     const searchConditions: Prisma.PostWhereInput[] = [];
 
@@ -72,10 +61,11 @@ export class PostRepository {
     }
 
     const where: Prisma.PostWhereInput = {
-      ...mapSearch(filters, ['query']),
+      ...mapSearch(filters, ['query', 'isTop']),
       ...(data.filters?.isVerified !== undefined
         ? { isVerified: data.filters?.isVerified }
         : {}),
+      ...(isTop ? { tops: { some: { place: { gt: 0 } } } } : {}),
       ...(searchConditions.length > 0 ? { OR: searchConditions } : {}),
     };
 

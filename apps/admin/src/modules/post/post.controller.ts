@@ -8,6 +8,7 @@ import { ActiveGuard } from '@app/common';
 import { PermissionGuard } from '@app/common';
 import { PostVerifyDto } from './dto/post.verify.dto';
 import { PostUpdateFakeLikesDto } from './dto/post.fake-likes.dto';
+import { PostAddToTopDto } from './dto/post.add-to-top.dto';
 
 @Controller('post')
 @ApiTags('Post')
@@ -28,6 +29,12 @@ export class PostController {
   @HasPermissions(PermissionEnum.PostVerify)
   async verify(@Param('id') id: string) {
     return this.service.verify(id);
+  }
+
+  @Post(':id/add-to-top')
+  @HasPermissions(PermissionEnum.PostAddToTop)
+  async addToTop(@Param('id') id: string, @Body() body: PostAddToTopDto) {
+    return this.service.addToTop(id, body.place);
   }
 
   @Post(':id/update-fake-likes')
