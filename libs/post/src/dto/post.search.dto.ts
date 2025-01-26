@@ -3,6 +3,7 @@ import { PostBaseDto } from './post.base.dto';
 import { IsEnum, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { SearchBaseDto } from '@app/common/base/search.dto';
 import { SortTypes } from '@app/common/constants/sort-types.enum';
+import { Type } from 'class-transformer';
 
 export class PostFiltersDto extends PartialType(PostBaseDto) {
   @ApiProperty()
@@ -31,9 +32,11 @@ export class PostSortDto {
 export class PostSearchDto extends SearchBaseDto<PostFiltersDto, PostSortDto> {
   @ApiProperty({ type: PostFiltersDto })
   @ValidateNested()
+  @Type(() => PostFiltersDto)
   filters?: PostFiltersDto;
 
   @ApiProperty({ type: PostSortDto })
   @ValidateNested()
+  @Type(() => PostSortDto)
   sort?: PostSortDto;
 }
