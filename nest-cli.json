@@ -126,6 +126,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/like/tsconfig.lib.json"
       }
+    },
+    "top": {
+      "type": "library",
+      "root": "libs/top",
+      "entryFile": "index",
+      "sourceRoot": "libs/top/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/top/tsconfig.lib.json"
+      }
     }
   }
 }

@@ -27,6 +27,19 @@ export class PostRepository {
     });
   }
 
+  async searchByIds(ids: string[]) {
+    return this.prisma.post.findMany({
+      where: { id: { in: ids } },
+      include: POST_INCLUDE,
+    });
+  }
+
+  async countByIds(ids: string[]) {
+    return this.prisma.post.count({
+      where: { id: { in: ids } },
+    });
+  }
+
   async count(data: PostSearchDto) {
     return this.prisma.post.count({
       where: this.buildWhere(data),
