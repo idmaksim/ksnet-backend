@@ -9,9 +9,9 @@ export class PostService {
     private readonly libService: LibPostService,
   ) {}
 
-  async verify(id: string, isVerified: boolean) {
+  async verify(id: string) {
     await this.libService.ensureExistsById(id);
-    return this.repository.verify(id, isVerified);
+    return this.repository.verify(id);
   }
 
   async updateFakeLikes(id: string, fakeLikes: number) {

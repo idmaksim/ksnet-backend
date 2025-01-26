@@ -113,7 +113,8 @@
       "^@app/group(|/.*)$": "<rootDir>/libs/group/src/$1",
       "^@app/tag(|/.*)$": "<rootDir>/libs/tag/src/$1",
       "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1",
-      "^@app/like(|/.*)$": "<rootDir>/libs/like/src/$1"
+      "^@app/like(|/.*)$": "<rootDir>/libs/like/src/$1",
+      "^@app/top(|/.*)$": "<rootDir>/libs/top/src/$1"
     }
   }
 }

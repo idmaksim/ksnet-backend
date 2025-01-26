@@ -12,14 +12,21 @@ export class PostService {
   ) {}
 
   async search(data: PostSearchDto) {
-    const [rawPosts, totalCount] = await Promise.all([
+    const [rawPosts, count] = await Promise.all([
       this.repository.search(data),
       this.repository.count(data),
     ]);
-    const postsWithLikeCount = await this.calculateLikes(rawPosts);
-    const postsWithFakeLikesCount =
-      await this.calculateFakeLikes(postsWithLikeCount);
-    return { data: postsWithFakeLikesCount, count: totalCount };
+    const postsWithLikeCount = await this.mapAdditionalFields(rawPosts);
+    return { data: postsWithLikeCount, count };
+  }
+
+  async searchByIds(ids: string[]) {
+    const [rawPosts, count] = await Promise.all([
+      this.repository.searchByIds(ids),
+      this.repository.countByIds(ids),
+    ]);
+    const postsWithLikeCount = await this.mapAdditionalFields(rawPosts);
+    return { data: postsWithLikeCount, count };
   }
 
   async ensureExistsById(id: string) {
@@ -27,6 +34,13 @@ export class PostService {
     if (!exists) {
       throw new NotFoundException(this.i18n.t('errors.post.notFound'));
     }
+  }
+
+  private async mapAdditionalFields(posts: Post[]): Promise<PostWithLikes[]> {
+    const postsWithLikeCount = await this.calculateLikes(posts);
+    const postsWithFakeLikesCount =
+      await this.calculateFakeLikes(postsWithLikeCount);
+    return postsWithFakeLikesCount;
   }
 
   private async calculateLikes(posts: Post[]): Promise<PostWithLikes[]> {
