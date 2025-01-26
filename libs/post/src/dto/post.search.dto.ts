@@ -1,10 +1,10 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { PostBaseDto } from './post.base.dto';
 import { IsEnum, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { SearchBaseDto } from '@app/common/base/search.dto';
 import { SortTypes } from '@app/common/constants/sort-types.enum';
 
-export class PostFiltersDto {
+export class PostFiltersDto extends PartialType(PostBaseDto) {
   @ApiProperty()
   @IsString()
   @IsOptional()

@@ -8,6 +8,7 @@ import { TokenModule } from '@app/token';
 import { RoleModule } from '../role/role.module';
 import { PermissionsModule } from '../permissions/permissions.module';
 import { UsersModule } from '../users/users.module';
+import { PostModule } from '../post/post.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { UsersModule } from '../users/users.module';
     RoleModule,
     PermissionsModule,
     UsersModule,
+    PostModule,
   ],
 })
 export class AppModule {}

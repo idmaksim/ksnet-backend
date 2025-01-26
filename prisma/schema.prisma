@@ -8,6 +8,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Top {
+  id        String   @id @default(uuid())
+  place     Int      @unique
+  postId    String   @map("post_id")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("tops")
+}
+
 model Tag {
   id        String    @id @default(uuid())
   name      String
@@ -73,6 +84,7 @@ model Post {
   likes       Like[]
   comments    Comment[]
   postTags    PostTag[]
+  tops        Top[]
 
   @@index([title, description])
   @@map("posts")

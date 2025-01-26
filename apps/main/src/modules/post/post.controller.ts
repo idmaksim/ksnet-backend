@@ -29,6 +29,9 @@ export class PostController {
 
   @Post('search')
   async search(@Body() body: PostSearchDto) {
-    return this.libService.search(body);
+    return this.libService.search({
+      ...body,
+      filters: { ...body.filters, isVerified: true },
+    });
   }
 }
