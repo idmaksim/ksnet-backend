@@ -18,6 +18,22 @@ export class PostRepository {
     });
   }
 
+  async addToTop(id: string, place: number) {
+    return this.prisma.top.create({
+      data: {
+        postId: id,
+        place: place,
+      },
+    });
+  }
+
+  async alreadyInTop(id: string) {
+    const top = await this.prisma.top.findFirst({
+      where: { postId: id },
+    });
+    return !!top;
+  }
+
   async updateFakeLikes(id: string, fakeLikes: number) {
     return this.prisma.post.update({
       where: { id },

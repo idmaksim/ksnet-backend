@@ -1,6 +1,12 @@
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { PostBaseDto } from './post.base.dto';
-import { IsEnum, IsOptional, IsString, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { SearchBaseDto } from '@app/common/base/search.dto';
 import { SortTypes } from '@app/common/constants/sort-types.enum';
 import { Type } from 'class-transformer';
@@ -15,6 +21,11 @@ export class PostFiltersDto extends PartialType(PostBaseDto) {
   @IsString({ each: true })
   @IsOptional()
   tags?: string[];
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  isTop?: boolean;
 
   @ApiProperty()
   @IsString()
