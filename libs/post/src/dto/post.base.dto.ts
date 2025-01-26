@@ -20,6 +20,7 @@ export class PostBaseDto {
   @IsString()
   url: string;
 
+  @ApiProperty()
   @IsBoolean()
   @IsOptional()
   isVerified?: boolean;

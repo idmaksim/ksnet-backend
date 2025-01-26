@@ -2,6 +2,17 @@
 CREATE TYPE "MediaType" AS ENUM ('AVATAR', 'POST');
 
 -- CreateTable
+CREATE TABLE "tops" (
+    "id" TEXT NOT NULL,
+    "place" INTEGER NOT NULL,
+    "post_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "tops_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "tags" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -56,6 +67,7 @@ CREATE TABLE "posts" (
     "content" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "fake_likes" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "posts_pkey" PRIMARY KEY ("id")
 );
@@ -151,6 +163,9 @@ CREATE TABLE "role_permissions" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "tops_place_key" ON "tops"("place");
+
+-- CreateIndex
 CREATE INDEX "posts_title_description_idx" ON "posts"("title", "description");
 
 -- CreateIndex
@@ -164,6 +179,9 @@ CREATE UNIQUE INDEX "permissions_name_key" ON "permissions"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "roles_name_key" ON "roles"("name");
+
+-- AddForeignKey
+ALTER TABLE "tops" ADD CONSTRAINT "tops_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "post_tags" ADD CONSTRAINT "post_tags_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;

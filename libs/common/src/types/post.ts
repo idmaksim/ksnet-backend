@@ -4,3 +4,7 @@ import { Prisma } from '@prisma/client';
 export type Post = Prisma.PostGetPayload<{
   include: typeof POST_INCLUDE;
 }>;
+
+export type PostWithLikes = Post & {
+  likesCount: number;
+};

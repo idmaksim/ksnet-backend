@@ -14,6 +14,9 @@ export enum PermissionEnum {
   UserDelete = 'user:delete',
   UserBan = 'user:ban',
   UserSearch = 'user:search',
+
+  PostVerify = 'post:verify',
+  PostUpdateFakeLikes = 'post:update-fake-likes',
 }
 
 export const PermissionTitles: Record<PermissionEnum, string> = {
@@ -32,4 +35,7 @@ export const PermissionTitles: Record<PermissionEnum, string> = {
   [PermissionEnum.UserDelete]: 'Удаление пользователя',
   [PermissionEnum.UserBan]: 'Бан пользователя',
   [PermissionEnum.UserSearch]: 'Поиск пользователей',
+
+  [PermissionEnum.PostVerify]: 'Верификация постов',
+  [PermissionEnum.PostUpdateFakeLikes]: 'Обновление фейковых лайков',
 };

@@ -60,6 +60,9 @@ export class PostRepository {
 
     const where: Prisma.PostWhereInput = {
       ...mapSearch(filters, ['query']),
+      ...(data.filters?.isVerified !== undefined
+        ? { isVerified: data.filters?.isVerified }
+        : {}),
       ...(searchConditions.length > 0 ? { OR: searchConditions } : {}),
     };
 
