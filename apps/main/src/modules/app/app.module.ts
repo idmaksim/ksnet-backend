@@ -4,8 +4,6 @@ import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import config from '../../config/config';
 import { AuthModule } from '../auth/auth.module';
 import { LoggerMiddleware } from '@app/common/middlewares/logger.middleware';
-import { PermissionModule } from 'libs/permissions/src';
-import { PermissionGuard } from '@app/common/guards/permission.guard';
 import { TokenModule } from '@app/token';
 import { UsersModule } from '../users/users.module';
 import { AvatarModule } from '../avatar/avatar.module';
@@ -14,7 +12,6 @@ import { TagModule } from '../tag/tag.module';
 import { S3Module } from 'nestjs-s3';
 import { PostModule } from '../post/post.module';
 import { LikeModule } from '../like/like.module';
-import { TopModule } from '../top/top.module';
 
 @Module({
   imports: [
@@ -59,7 +56,6 @@ import { TopModule } from '../top/top.module';
     TagModule,
     PostModule,
     LikeModule,
-    TopModule,
   ],
 })
 export class AppModule implements NestModule {

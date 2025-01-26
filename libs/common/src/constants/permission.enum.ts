@@ -17,6 +17,11 @@ export enum PermissionEnum {
 
   PostVerify = 'post:verify',
   PostUpdateFakeLikes = 'post:update-fake-likes',
+
+  TopSearch = 'top:search',
+  TopCreate = 'top:create',
+  TopDelete = 'top:delete',
+  TopUpdate = 'top:update',
 }
 
 export const PermissionTitles: Record<PermissionEnum, string> = {
@@ -38,4 +43,9 @@ export const PermissionTitles: Record<PermissionEnum, string> = {
 
   [PermissionEnum.PostVerify]: 'Верификация постов',
   [PermissionEnum.PostUpdateFakeLikes]: 'Обновление фейковых лайков',
+
+  [PermissionEnum.TopSearch]: 'Поиск топ-пользователей',
+  [PermissionEnum.TopCreate]: 'Создание топ-пользователей',
+  [PermissionEnum.TopDelete]: 'Удаление топ-пользователей',
+  [PermissionEnum.TopUpdate]: 'Обновление топ-пользователей',
 };

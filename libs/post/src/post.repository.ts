@@ -20,7 +20,7 @@ export class PostRepository {
 
   async search(data: PostSearchDto) {
     return this.prisma.post.findMany({
-      where: this.buildWhere(data),
+      where: PostRepository.buildWhere(data),
       include: POST_INCLUDE,
       orderBy: mapSort(data.sort),
       ...mapPagination(data.pagination),
@@ -42,11 +42,11 @@ export class PostRepository {
 
   async count(data: PostSearchDto) {
     return this.prisma.post.count({
-      where: this.buildWhere(data),
+      where: PostRepository.buildWhere(data),
     });
   }
 
-  private buildWhere(data: PostSearchDto): Prisma.PostWhereInput {
+  static buildWhere(data: PostSearchDto): Prisma.PostWhereInput {
     const filters = { ...data.filters };
     const query = filters?.query;
 

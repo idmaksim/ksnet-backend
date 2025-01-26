@@ -5,10 +5,16 @@ import { PrismaService } from '@app/prisma/prisma.service';
 export class PostRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async verify(id: string, isVerified: boolean) {
+  async verify(id: string) {
+    const post = await this.prisma.post.findUnique({
+      where: { id },
+      select: {
+        isVerified: true,
+      },
+    });
     return this.prisma.post.update({
       where: { id },
-      data: { isVerified },
+      data: { isVerified: !post.isVerified },
     });
   }
 

@@ -83,12 +83,6 @@
       ],
       "@app/like/*": [
         "libs/like/src/*"
-      ],
-      "@app/top": [
-        "libs/top/src"
-      ],
-      "@app/top/*": [
-        "libs/top/src/*"
       ]
     }
   }
