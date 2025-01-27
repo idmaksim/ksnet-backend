@@ -11,6 +11,19 @@ export class PostService {
     private readonly i18n: I18nService,
   ) {}
 
+  async delete(id: string) {
+    await this.ensureExistsById(id);
+    return this.repository.delete(id);
+  }
+
+  async findManyByUserId(userId: string) {
+    const posts = await this.repository.findManyByUserId(userId);
+    if (!posts.length) {
+      throw new NotFoundException(this.i18n.t('errors.post.notFoundMany'));
+    }
+    return posts;
+  }
+
   async search(data: PostSearchDto) {
     const [rawPosts, count] = await Promise.all([
       this.repository.search(data),

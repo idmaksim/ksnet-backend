@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { PostService } from './post.service';
 import { PostSearchDto } from '@app/post/dto/post.search.dto';
 import { PostService as LibPostService } from '@app/post/post.service';
@@ -19,6 +27,12 @@ export class PostController {
     private readonly service: PostService,
     private readonly libService: LibPostService,
   ) {}
+
+  @Delete(':id')
+  @HasPermissions(PermissionEnum.PostDelete)
+  async delete(@Param('id') id: string) {
+    return this.libService.delete(id);
+  }
 
   @Post('search')
   async search(@Body() body: PostSearchDto) {
