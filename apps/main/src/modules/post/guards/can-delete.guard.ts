@@ -4,9 +4,11 @@ import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
+  Injectable,
 } from '@nestjs/common';
 import { I18nService } from 'nestjs-i18n';
 
+@Injectable()
 export class CanDeleteGuard implements CanActivate {
   constructor(
     private readonly service: PostService,
