@@ -18,6 +18,19 @@ export class PostRepository {
     return !!post;
   }
 
+  async findManyByUserId(userId: string) {
+    return this.prisma.post.findMany({
+      where: { ownerId: userId },
+      select: { id: true },
+    });
+  }
+
+  async delete(id: string) {
+    return this.prisma.post.delete({
+      where: { id },
+    });
+  }
+
   async search(data: PostSearchDto) {
     return this.prisma.post.findMany({
       where: PostRepository.buildWhere(data),
