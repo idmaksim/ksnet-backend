@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 export const POST_INCLUDE: Prisma.PostInclude = {
+  tops: true,
   postTags: {
     select: {
       tag: {
