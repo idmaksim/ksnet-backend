@@ -51,6 +51,12 @@ export class PostController {
     return this.service.addToTop(id, body.place);
   }
 
+  @Delete(':id/remove-from-top')
+  @HasPermissions(PermissionEnum.PostRemoveFromTop)
+  async removeFromTop(@Param('id') id: string) {
+    return this.service.removeFromTop(id);
+  }
+
   @Post(':id/update-fake-likes')
   @HasPermissions(PermissionEnum.PostUpdateFakeLikes)
   async updateFakeLikes(

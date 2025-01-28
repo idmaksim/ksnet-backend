@@ -11,6 +11,11 @@ export class PostService {
     private readonly i18n: I18nService,
   ) {}
 
+  async removeFromTop(id: string) {
+    await this.libService.ensureExistsById(id);
+    return this.repository.removeFromTop(id);
+  }
+
   async verify(id: string) {
     await this.libService.ensureExistsById(id);
     return this.repository.verify(id);

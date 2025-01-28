@@ -5,6 +5,12 @@ import { PrismaService } from '@app/prisma/prisma.service';
 export class PostRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  async removeFromTop(id: string) {
+    return this.prisma.top.deleteMany({
+      where: { postId: id },
+    });
+  }
+
   async verify(id: string) {
     const post = await this.prisma.post.findUnique({
       where: { id },

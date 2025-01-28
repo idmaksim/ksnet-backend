@@ -21,6 +21,7 @@ export enum PermissionEnum {
   PostAddToTop = 'post:add-to-top',
 
   PostDelete = 'post:delete',
+  PostRemoveFromTop = 'post:remove-from-top',
 }
 
 export const PermissionTitles: Record<PermissionEnum, string> = {
@@ -46,4 +47,5 @@ export const PermissionTitles: Record<PermissionEnum, string> = {
   [PermissionEnum.PostAddToTop]: 'Добавление в топ',
 
   [PermissionEnum.PostDelete]: 'Удаление поста',
+  [PermissionEnum.PostRemoveFromTop]: 'Удаление из топ',
 };
