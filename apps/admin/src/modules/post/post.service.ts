@@ -11,6 +11,11 @@ export class PostService {
     private readonly i18n: I18nService,
   ) {}
 
+  async removeFromTop(id: string) {
+    await this.libService.ensureExistsById(id);
+    return this.repository.removeFromTop(id);
+  }
+
   async verify(id: string) {
     await this.libService.ensureExistsById(id);
     return this.repository.verify(id);
@@ -18,6 +23,7 @@ export class PostService {
 
   async addToTop(id: string, place: number) {
     await this.ensureNotInTop(id);
+    await this.ensurePlaceIsFree(place);
     await this.libService.ensureExistsById(id);
     return this.repository.addToTop(id, place);
   }
@@ -25,6 +31,13 @@ export class PostService {
   async updateFakeLikes(id: string, fakeLikes: number) {
     await this.libService.ensureExistsById(id);
     return this.repository.updateFakeLikes(id, fakeLikes);
+  }
+
+  async ensurePlaceIsFree(place: number) {
+    const isFree = await this.repository.placeIsFree(place);
+    if (!isFree) {
+      throw new ConflictException(this.i18n.t('errors.post.placeIsNotFree'));
+    }
   }
 
   async ensureNotInTop(id: string) {
