@@ -11,6 +11,13 @@ export class PostRepository {
     });
   }
 
+  async placeIsFree(place: number) {
+    const top = await this.prisma.top.findFirst({
+      where: { place },
+    });
+    return !top;
+  }
+
   async verify(id: string) {
     const post = await this.prisma.post.findUnique({
       where: { id },
