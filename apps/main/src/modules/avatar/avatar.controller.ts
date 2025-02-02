@@ -16,6 +16,7 @@ import {
 import { ApiConsumes, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AvatarService } from './avatar.service';
+import { fileFilter } from './helpers/file.filter';
 
 @Controller('avatar')
 @ApiBearerAuth()
@@ -38,17 +39,7 @@ export class AvatarController {
   })
   @UseInterceptors(
     FileInterceptor('file', {
-      fileFilter: async (req, file, callback) => {
-        const i18n = req.i18nService;
-        const allowedMimeTypes = ['image/jpeg', 'image/png'];
-        if (!allowedMimeTypes.includes(file.mimetype)) {
-          const errorMessage = await i18n.translate('errors.invalidFileType', {
-            lang: req.i18nLang,
-          });
-          return callback(new BadRequestException(errorMessage), false);
-        }
-        callback(null, true);
-      },
+      fileFilter: fileFilter,
     }),
   )
   async uploadAvatar(

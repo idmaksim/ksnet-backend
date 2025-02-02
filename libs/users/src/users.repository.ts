@@ -25,6 +25,13 @@ export class UsersRepository {
     });
   }
 
+  async findOneByUsername(username: string) {
+    return this.prisma.user.findUnique({
+      where: { username },
+      include: USER_INCLUDE,
+    });
+  }
+
   async search(dto: UserSearchDto) {
     return this.prisma.user.findMany({
       where: mapSearch(dto.filters),
