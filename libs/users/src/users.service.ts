@@ -25,6 +25,14 @@ export class UsersService {
     private readonly i18n: I18nService,
   ) {}
 
+  async findOneByUsername(username: string) {
+    const user = await this.usersRepository.findOneByUsername(username);
+    if (!user) {
+      throw new NotFoundException(this.i18n.t('errors.user.notFound'));
+    }
+    return user;
+  }
+
   async search(dto: UserSearchDto) {
     const [data, count] = await Promise.all([
       this.usersRepository.search(dto),
