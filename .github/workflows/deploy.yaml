@@ -15,9 +15,12 @@ jobs:
       - name: Install deps
         run: npm i -g pnpm && pnpm install
 
-
+      - name: prisma generate
+        run: pnpm prisma generate
+        
       - name: Run test
         run: pnpm test
+
 
   migrate:
     needs: [test]
