@@ -12,7 +12,8 @@ async function bootstrap() {
     key: fs.readFileSync('./private.key'),
     cert: fs.readFileSync('./certificate.crt'),
   };
-  const app = await NestFactory.create(AppModule, { httpsOptions });
+
+  const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
   app.use(helmet()); // https://docs.nestjs.com/security/helmet
