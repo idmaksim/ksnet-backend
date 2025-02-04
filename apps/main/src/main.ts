@@ -14,7 +14,7 @@ async function bootstrap() {
     cert: fs.readFileSync('certificate.crt'),
   };
 
-  const app = await NestFactory.create(AppModule, { httpsOptions });
+  const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
   app.use(cookieParser());
