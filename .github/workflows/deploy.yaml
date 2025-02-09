@@ -40,6 +40,9 @@ jobs:
           echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env
           echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
           echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+          echo "MAIN_SERVER_HOST=${{ secrets.MAIN_SERVER_HOST }}" >> .env
+          echo "ADMIN_SERVER_HOST=${{ secrets.ADMIN_SERVER_HOST }}" >> .env
+
 
 
       - name: Install deps
@@ -82,6 +85,10 @@ jobs:
             echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env
             echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
             echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+            echo "MAIN_SERVER_HOST=${{ secrets.MAIN_SERVER_HOST }}" >> .env
+            echo "ADMIN_SERVER_HOST=${{ secrets.ADMIN_SERVER_HOST }}" >> .env
+
+
 
             cat .env
 
