@@ -36,6 +36,7 @@ async function bootstrap() {
       description: 'Enter JWT token',
       in: 'header',
     })
+    .setBasePath(process.env.ADMIN_SERVER_HOST)
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {

@@ -19,6 +19,8 @@ services:
       - S3_REGION=${S3_REGION}
       - S3_BUCKET_NAME=${S3_BUCKET_NAME}
       - PORT=3000
+      - MAIN_SERVER_HOST=${MAIN_SERVER_HOST}
+      - ADMIN_SERVER_HOST=${ADMIN_SERVER_HOST}
   admin:
     build:
       context: .
@@ -37,3 +39,5 @@ services:
       - S3_REGION=${S3_REGION}
       - S3_BUCKET_NAME=${S3_BUCKET_NAME}
       - PORT_ADMIN=3001
+      - MAIN_SERVER_HOST=${MAIN_SERVER_HOST}
+      - ADMIN_SERVER_HOST=${ADMIN_SERVER_HOST}
