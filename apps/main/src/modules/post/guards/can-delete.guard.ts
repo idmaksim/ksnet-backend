@@ -1,4 +1,5 @@
 import { User } from '@app/common';
+import { BaseRoleEnum } from '@app/common/constants/base-roles.enum';
 import { PostService } from '@app/post';
 import {
   CanActivate,
@@ -21,9 +22,10 @@ export class CanDeleteGuard implements CanActivate {
     const id = request.params.id;
 
     const posts = await this.service.findManyByUserId(user.id);
-
-    if (!posts.map((post) => post.id).includes(id)) {
-      throw new ForbiddenException(this.i18n.t('errors.post.forbidden'));
+    if (user.role.name !== BaseRoleEnum.Admin) {
+      if (!posts.map((post) => post.id).includes(id)) {
+        throw new ForbiddenException(this.i18n.t('errors.post.forbidden'));
+      }
     }
 
     return true;

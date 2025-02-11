@@ -47,11 +47,11 @@ jobs:
       - name: Install deps
         run: npm i -g pnpm && pnpm install
 
-      # - name: Migrate
-      #   run: pnpm prisma migrate deploy
+      - name: Migrate
+        run: pnpm prisma migrate deploy
 
-      - name: Run reset
-        run: pnpm reset   
+      # - name: Run reset
+      #   run: pnpm reset   
   
   deploy:
     needs: [migrate]
