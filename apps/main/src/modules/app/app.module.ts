@@ -12,6 +12,7 @@ import { TagModule } from '../tag/tag.module';
 import { S3Module } from 'nestjs-s3';
 import { PostModule } from '../post/post.module';
 import { LikeModule } from '../like/like.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -56,6 +57,12 @@ import { LikeModule } from '../like/like.module';
     TagModule,
     PostModule,
     LikeModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 10000,
+        limit: 5,
+      },
+    ]),
   ],
 })
 export class AppModule implements NestModule {

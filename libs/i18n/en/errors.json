@@ -16,5 +16,6 @@
     "role": {
         "notFound": "Role not found",
         "notFoundMany": "Roles not found"
-    }
+    },
+    "tooManyRequests": "Too many requests. Please try again later"
 }
