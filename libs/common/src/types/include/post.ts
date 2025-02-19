@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export const POST_INCLUDE: Prisma.PostInclude = {
+export const POST_INCLUDE = {
   tops: true,
   postTags: {
     select: {
@@ -43,4 +43,4 @@ export const POST_INCLUDE: Prisma.PostInclude = {
       lastName: true,
     },
   },
-};
+} satisfies Prisma.PostInclude;

@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export const USER_INCLUDE: Prisma.UserInclude = {
+export const USER_INCLUDE = {
   likes: true,
   group: true,
   role: true,
@@ -9,9 +9,9 @@ export const USER_INCLUDE: Prisma.UserInclude = {
       media: true,
     },
   },
-};
+} satisfies Prisma.UserInclude;
 
-export const USER_SELECT: Prisma.UserSelect = {
+export const USER_SELECT = {
   id: true,
   email: true,
   username: true,
@@ -24,4 +24,4 @@ export const USER_SELECT: Prisma.UserSelect = {
   userMedias: true,
   likes: true,
   role: true,
-};
+} satisfies Prisma.UserSelect;
