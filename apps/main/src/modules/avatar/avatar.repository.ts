@@ -35,14 +35,13 @@ export class AvatarRepository {
   }
 
   async existsByUserId(userId: string) {
-    const exists = await this.prisma.media.findFirst({
+    const count = await this.prisma.media.count({
       where: {
         type: MediaType.AVATAR,
         userMedias: { some: { userId } },
       },
-      select: { id: true },
     });
 
-    return !!exists;
+    return count > 0;
   }
 }

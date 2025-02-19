@@ -67,20 +67,18 @@ export class UsersRepository {
   }
 
   async existsById(id: string) {
-    return !!(await this.prisma.user.findUnique({
+    const count = await this.prisma.user.count({
       where: { id },
-      select: {
-        id: true,
-      },
-    }));
+    });
+
+    return count > 0;
   }
 
   async existsByEmail(email: string) {
-    return !!(await this.prisma.user.findUnique({
+    const count = await this.prisma.user.count({
       where: { email },
-      select: {
-        id: true,
-      },
-    }));
+    });
+
+    return count > 0;
   }
 }

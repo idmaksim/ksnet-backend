@@ -23,11 +23,10 @@ export class TagRepository {
   }
 
   async existsById(id: string) {
-    const tag = await this.prisma.tag.findUnique({
+    const count = await this.prisma.tag.count({
       where: { id },
-      select: { id: true },
     });
 
-    return !!tag;
+    return count > 0;
   }
 }

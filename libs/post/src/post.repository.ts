@@ -11,11 +11,11 @@ export class PostRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async existsById(id: string) {
-    const post = await this.prisma.post.findUnique({
+    const count = await this.prisma.post.count({
       where: { id },
-      select: { id: true },
     });
-    return !!post;
+
+    return count > 0;
   }
 
   async findManyByUserId(userId: string) {

@@ -72,15 +72,18 @@ export class RoleRepository {
   }
 
   async existsById(id: string) {
-    return !!(await this.prisma.role.findFirst({
+    const count = await this.prisma.role.count({
       where: { id },
-      select: { id: true },
-    }));
+    });
+
+    return count > 0;
   }
 
   async existsByName(name: string, id?: string) {
-    return !!(await this.prisma.role.findFirst({
+    const count = await this.prisma.role.count({
       where: { name, id: { not: id } },
-    }));
+    });
+
+    return count > 0;
   }
 }

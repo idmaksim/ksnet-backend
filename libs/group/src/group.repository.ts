@@ -17,14 +17,11 @@ export class GroupRepository {
   }
 
   async existsById(id: string) {
-    const exists = await this.prisma.group.findUnique({
+    const count = await this.prisma.group.count({
       where: { id },
-      select: {
-        id: true,
-      },
     });
 
-    return !!exists;
+    return count > 0;
   }
 
   async count(searchDto: GroupSearchDto) {

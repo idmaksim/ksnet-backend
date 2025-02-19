@@ -6,24 +6,21 @@ export class LikeRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async existsByUserIdAndPostId(userId: string, postId: string) {
-    const like = await this.prisma.like.findFirst({
+    const count = await this.prisma.like.count({
       where: {
         userId,
         postId,
       },
-      select: {
-        id: true,
-      },
     });
 
-    return !!like;
+    return count > 0;
   }
 
   async existsById(id: string) {
-    const like = await this.prisma.like.findUnique({
+    const count = await this.prisma.like.count({
       where: { id },
     });
 
-    return !!like;
+    return count > 0;
   }
 }
